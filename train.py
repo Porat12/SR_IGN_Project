@@ -56,6 +56,7 @@ def train_loop(dataloader, model, model_copy, loss_func, args, optimizer, schedu
     avg_loss = torch.mean(torch.tensor(loss_history)).item()
     
     # Calculate mean of each entry in info_history
+    print(type(info_history))
     avg_info = torch.mean(torch.tensor(info_history, dtype = float), dim=0).tolist()
     avg_info = [avg_loss] + avg_info
 

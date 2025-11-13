@@ -2,8 +2,6 @@ from torch.utils.data import DataLoader
 
 from SRdata.SR_MNIST import SR_MNIST
 from SRdata.SR_celebA import SR_celebA
-import numpy as np
-
 
 
 def get_data_loader(args):
@@ -37,7 +35,8 @@ def get_data_loader(args):
                         )
         
         return train_loader, test_loader
-    else:
+
+    elif args.dataset_name == 'celebA':
         train_data = SR_celebA(
             root_dir="./data",
             split = 'train',
@@ -65,6 +64,7 @@ def get_data_loader(args):
                         batch_size = args.batch_size,
                         shuffle=True
                         )
+        return train_loader, test_loader
     return None, None
 
 
