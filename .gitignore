@@ -1,0 +1,16 @@
+# Exclude Python's bytecode cache
+__pycache__/
+
+# Exclude the virtual environment
+.venv/
+
+# Exclude VS Code's workspace settings
+.vscode/
+
+# Optionally, if data and models are too large:
+data/
+# models/
+
+# Other
+notebooks/
+file_structure_example
