@@ -7,6 +7,7 @@ def test_loop(dataloader, model, loss_func, args):
     # Set the model to evaluation mode
     model.eval()
 
+    ordered_keys = constants.history_keys[1:]
     lam_rec, lam_idem = args.lam_rec, args.lam_idem
     lam_tight, lam_SR = args.lam_tight, args.lam_SR
     a = args.a
@@ -27,7 +28,9 @@ def test_loop(dataloader, model, loss_func, args):
         loss, info = loss_func(model, LR_img, HR_img, lam_rec, lam_idem, lam_tight, lam_SR, a)
         
         loss_history.append(loss.item())
-        info_history.append(info.values())
+        
+        # Enforce a fixed order matching constants.history_keys (excluding total_loss)
+        info_history.append([info[k] for k in ordered_keys])
 
         # psnr_metric.update(SR_img, HR_img)
         # ssim_metric.update(SR_img, HR_img)
@@ -35,7 +38,7 @@ def test_loop(dataloader, model, loss_func, args):
     avg_loss = torch.mean(torch.tensor(loss_history)).item()
     
     # Calculate mean of each entry in info_history
-    avg_info = torch.mean(torch.tensor(info_history), dim=0).tolist()
+    avg_info = torch.mean(torch.tensor(info_history, dtype=torch.float32), dim=0).tolist()
     avg_info = [avg_loss] + avg_info
 
     # epoch_ssim = ssim_metric.compute()

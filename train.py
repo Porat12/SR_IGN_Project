@@ -9,6 +9,7 @@ def train_loop(dataloader, model, model_copy, loss_func, args, optimizer, schedu
     # Set the model to training mode
     model.train()
 
+    ordered_keys = constants.history_keys[1:]
     lam_rec, lam_idem = args.lam_rec, args.lam_idem
     lam_tight, lam_SR = args.lam_tight, args.lam_SR
     a = args.a
@@ -46,8 +47,12 @@ def train_loop(dataloader, model, model_copy, loss_func, args, optimizer, schedu
 
         batch_time += (end_time - start_time)
         if batch_idx % report_time == 0:
-            info_history.append(info.values())
+            
             loss_history.append(loss.item())
+            
+            # Enforce a fixed order matching constants.history_keys (excluding total_loss)
+            info_history.append([info[k] for k in ordered_keys])
+            
             batch_time /= 50
             current = batch_idx * dataloader.batch_size + batch_len
             print(f"loss: {loss.item():>7f}  [{current:>5d}/{size:>5d}]------- Avg batch time: {math.floor(batch_time*10**6)} μs")
@@ -56,8 +61,7 @@ def train_loop(dataloader, model, model_copy, loss_func, args, optimizer, schedu
     avg_loss = torch.mean(torch.tensor(loss_history)).item()
     
     # Calculate mean of each entry in info_history
-    print(type(info_history))
-    avg_info = torch.mean(torch.tensor(info_history, dtype = float), dim=0).tolist()
+    avg_info = torch.mean(torch.tensor(info_history, dtype=torch.float32), dim=0).tolist()
     avg_info = [avg_loss] + avg_info
 
     return dict(zip(constants.history_keys, avg_info))
