@@ -1,0 +1,56 @@
+import torch
+import torch.nn.functional as F
+
+def SR_IGN_loss_for_train(f, f_copy, z, x, lam_rec, lam_idem, lam_tight, lam_SR, a = None):
+
+    fx = f(x)
+    fz = f(z)
+    f_z = fz.detach()
+    ff_z = f(f_z)
+    f_fz = f_copy(fz)
+
+    loss_SR = F.mse_loss(fz, x)
+
+    loss_rec = F.mse_loss(fx, x)
+    detached_loss_rec = loss_rec.detach()
+
+    loss_idem = F.mse_loss(f_fz, fz)
+
+    loss_tight = -F.mse_loss(ff_z, f_z)
+    if a is not None:
+        loss_tight = F.tanh( loss_tight / (a * detached_loss_rec) ) * detached_loss_rec
+
+    loss = lam_rec * loss_rec + lam_idem * loss_idem + lam_tight * loss_tight + lam_SR * loss_SR
+
+    info = {"rec_loss": loss_rec.item(),
+            "idem_loss": loss_idem.item(),
+            "tight_loss": loss_tight.item(),
+            "SR_loss": loss_SR.item()}
+    
+    return loss, info
+
+@torch.no_grad()
+def SR_IGN_loss_for_test(f, z, x, lam_rec, lam_idem, lam_tight, lam_SR, a = None):
+
+    fx = f(x)
+    fz = f(z)
+    ffz= f(fz)
+
+    loss_SR = F.mse_loss(fz, x)
+
+    loss_rec = F.mse_loss(fx, x)
+
+    loss_idem = F.mse_loss(ffz, fz)
+
+    loss_tight = -loss_idem
+    if a is not None:
+        loss_tight = F.tanh( loss_tight / (a * loss_rec) ) * loss_rec
+
+    loss = lam_rec * loss_rec + lam_idem * loss_idem + lam_tight * loss_tight + lam_SR * loss_SR
+
+    info = {"rec_loss": loss_rec.item(),
+            "idem_loss": loss_idem.item(),
+            "tight_loss": loss_tight.item(),
+            "SR_loss": loss_SR.item()}
+    
+    return loss, info
