@@ -56,7 +56,7 @@ echo "--- Launching Primary Command ---"
 # --- Launching Primary Command ---
 
 echo "Changing directory to project folder..."
-cd /rg/shocher_prj/porat.hai/SR_IGN
+cd /rg/shocher_prj/porat.hai/SR_IGN_Project
 
 echo "Current directory: $(pwd)"
 echo "Listing files: $(ls)"
