@@ -1,0 +1,69 @@
+================================================================
+Timestamp            : Fri Nov 14 08:38:34 UTC 2025
+Host                 : n314
+SLURM Job ID         : 24152
+Apptainer Container  : /usr/local/apptainer/images/pytorch/latest/torch2.7-tf2.20-cu128.sif
+Container Mounts     : 
+GPU(s) Allocated     : 0
+================================================================
+
+--- Verifying GPU Accessibility Inside Container ---
+Fri Nov 14 08:38:34 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 570.124.06             Driver Version: 570.124.06     CUDA Version: 12.8     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:E5:00.0 Off |                    0 |
+| N/A   36C    P0             80W /  350W |       1MiB /  46068MiB |      0%   E. Process |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Filesystem                                                                     Size  Used Avail Use% Mounted on
+fuse-overlayfs                                                                 1.2T   40K  1.2T   1% /
+devtmpfs                                                                       4.0M     0  4.0M   0% /dev
+tmpfs                                                                          1.2T  184M  1.2T   1% /dev/shm
+/dev/md127                                                                     893G   83G  810G  10% /etc/hosts
+/dev/md125p1                                                                   7.0T   84G  7.0T   2% /scratch
+tmpfs                                                                          454G   64M  454G   1% /run/munge/munge.socket.2
+efivarfs                                                                       128K   51K   73K  41% /sys/firmware/efi/efivars
+tmpfs                                                                          1.2T   40K  1.2T   1% /.singularity.d/libs
+hpc-nfs2:/athena/rlocal/cuda-12.8/targets/x86_64-linux/lib/libOpenCL.so.1.0.0  1.0T  161G  864G  16% /.singularity.d/libs/libOpenCL.so
+hpc-nfs2:/rg/shocher_prj/porat.hai/SR_IGN_Project                              2.0T  272M  2.0T   1% /rg/shocher_prj/porat.hai/SR_IGN_Project
+tmpfs                                                                          1.2T   12K  1.2T   1% /proc/driver/nvidia
+--- Launching Primary Command ---
+Changing directory to project folder...
+Current directory: /rg/shocher_prj/porat.hai/SR_IGN_Project
+Listing files: README.md
+SRdata
+__pycache__
+check_internet.py
+constants.py
+data
+evaluation.py
+example.sbatch
+helpers.py
+list_packages.py
+losses.py
+main.py
+model_weights.pth
+models
+run.sh
+slurm-24152.err
+slurm-24152.out
+tensorflow_datasets_downloads.py
+train.py
+utils
+Starting python script...
+Internet access is available.
+Mission Complete.
