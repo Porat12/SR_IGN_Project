@@ -57,19 +57,25 @@ print(f"Using {constants.device} device")
 # ssim_metric = StructuralSimilarityIndexMeasure(data_range=1.0).to(device)
 # psnr_metric = PeakSignalNoiseRatio(data_range=1.0).to(device)
 
-model_args = {"encoder": 
-    [{"in_channels":1,"out_channels":32,"kernel_size":4,"padding":1,"stride":2},
-    {"in_channels":32,"out_channels":128,"kernel_size":4,"padding":1,"stride":2},
-    {"in_channels":128,"out_channels":256,"kernel_size":4,"padding":1,"stride":2},
-    {"in_channels":256,"out_channels":512,"kernel_size":4,"padding":1,"stride":2}],
-    "decoder":
-    [{"in_channels":512,"out_channels":256,"kernel_size":4,"padding":1,"stride":2},
-     {"in_channels":256,"out_channels":128,"kernel_size":4,"padding":1,"stride":2},
-     {"in_channels":128,"out_channels":32,"kernel_size":4,"padding":1,"stride":2},
-     {"in_channels":32,"out_channels":1,"kernel_size":4,"padding":1,"stride":2}]
-    }
+# model_args = {"encoder": 
+#     [{"in_channels":1,"out_channels":32,"kernel_size":4,"padding":1,"stride":2},
+#     {"in_channels":32,"out_channels":128,"kernel_size":4,"padding":1,"stride":2},
+#     {"in_channels":128,"out_channels":256,"kernel_size":4,"padding":1,"stride":2},
+#     {"in_channels":256,"out_channels":512,"kernel_size":4,"padding":1,"stride":2}],
+#     "decoder":
+#     [{"in_channels":512,"out_channels":256,"kernel_size":4,"padding":1,"stride":2},
+#      {"in_channels":256,"out_channels":128,"kernel_size":4,"padding":1,"stride":2},
+#      {"in_channels":128,"out_channels":32,"kernel_size":4,"padding":1,"stride":2},
+#      {"in_channels":32,"out_channels":1,"kernel_size":4,"padding":1,"stride":2}]
+#     }
     
-
+model_args = {"encoder": 
+    [{"in_channels":3,"out_channels":6,"kernel_size":4,"padding":1,"stride":2},
+    {"in_channels":6,"out_channels":10,"kernel_size":4,"padding":1,"stride":2}],
+    "decoder":
+    [{"in_channels":10,"out_channels":6,"kernel_size":4,"padding":1,"stride":2},
+     {"in_channels":6,"out_channels":3,"kernel_size":4,"padding":1,"stride":2}]
+    }
 
 # model_args = {"encoder": 
 #               [{"in_channels":1, "out_channels":8, "conv_kernel_size":3, "conv_padding":1, "pool_kernel_size":2, "pool_stride":2},

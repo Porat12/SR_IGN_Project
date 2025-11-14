@@ -14,3 +14,4 @@ data/
 # Other
 notebooks/
 file_structure_example
+model_weights.pth
