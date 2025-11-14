@@ -10,7 +10,7 @@
 #SBATCH --nodes=1                     # Confines the job to a single node for efficient GPU communication.
 #SBATCH --mem=2G
 #SBATCH --ntasks=1                    # Runs the entire job as a single task.
-#SBATCH --time=00:30:00
+#SBATCH --time=02:00:00
 # --- Mail notification ---
 #SBATCH --mail-type=ALL               # Valid notification types: NONE, BEGIN, END, FAIL, REQUEUE, ALL, INVALID_DEPEND, STAGE_OUT, TIME_LIMIT, TIME_LIMIT_90, TIME_LIMIT_80, TIME_LIMIT_50 and ARRAY_TASKS
 #SBATCH --mail-user=porat.hai@campus.technion.ac.il
@@ -56,7 +56,7 @@ echo "--- Launching Primary Command ---"
 # --- Launching Primary Command ---
 
 echo "Changing directory to project folder..."
-cd /rg/shocher_prj/porat.hai/SR_IGN_Project
+cd /rg/shocher_prj/porat.hai/SR_IGN_Project/utils/download_datasets
 
 echo "Current directory: $(pwd)"
 echo "Listing files: $(ls)"
@@ -67,6 +67,6 @@ echo "Starting python script..."
 #     --learning_rate 0.001 --beta_1 0.5 --beta_2 0.999 --weight_decay 0.0001 \
 #     --lam_rec 15 --lam_idem 10 --lam_tight 5 --lam_SR 15 --a 3 \
 #     --epochs 2
-# python tensorflow_datasets_downloads.py
-python check_internet.py
+
+python download_DIV2K.py
 echo "Mission Complete."

@@ -1,7 +1,8 @@
 from torchvision.datasets.utils import download_and_extract_archive
 import os
 
-save_root = "../../data/DIV2K"     # <--- cleaner folder structure
+# save_root = "../../data/DIV2K" # for my local pc
+save_root = "/rg/shocher_prj/porat.hai/SR_IGN_Project/data"     # for HPC
 os.makedirs(save_root, exist_ok=True)
 
 # Download Train HR
