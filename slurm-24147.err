@@ -1,0 +1,3 @@
+INFO:    Setting 'NVIDIA_VISIBLE_DEVICES=all' to emulate legacy GPU binding.
+INFO:    Setting --writable-tmpfs (required by nvidia-container-cli)
+/var/spool/slurm/d/job24147/slurm_script: line 59: cd: /rg/shocher_prj/porat.hai/SR_IGN: No such file or directory

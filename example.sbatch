@@ -8,9 +8,9 @@
 #SBATCH --output=slurm-%j.out         # Redirects standard output to a file named with the job ID.
 #SBATCH --error=slurm-%j.err          # Redirects standard error to a file.
 #SBATCH --nodes=1                     # Confines the job to a single node for efficient GPU communication.
-#SBATCH --mem=3G
+#SBATCH --mem=1G
 #SBATCH --ntasks=1                    # Runs the entire job as a single task.
-#SBATCH --time=00:40:00
+#SBATCH --time=00:01:00
 # --- Mail notification ---
 #SBATCH --mail-type=ALL               # Valid notification types: NONE, BEGIN, END, FAIL, REQUEUE, ALL, INVALID_DEPEND, STAGE_OUT, TIME_LIMIT, TIME_LIMIT_90, TIME_LIMIT_80, TIME_LIMIT_50 and ARRAY_TASKS
 #SBATCH --mail-user=porat.hai@campus.technion.ac.il
@@ -19,7 +19,7 @@
 #SBATCH --partition=l40s-shared       # Submits the job to the dedicated L40S GPU  partition or the “-l40s-shared” if you do not mind being Preempted on nodes which are not public.
 #SBATCH --qos=2h_2g                  # Assigns the job to the public '24h_4g' Quality of Service tier for running jobs on public nodes partition “l40s-public”.
 #SBATCH --gres=gpu:nvidia_l40s:1      
-#SBATCH --cpus-per-gpu=8             # Allocates 12 CPU cores per requested GPU, ensuring no I/O bottleneck.
+#SBATCH --cpus-per-gpu=4             # Allocates 12 CPU cores per requested GPU, ensuring no I/O bottleneck.
 
 # --- Container & Mounts ---
 #SBATCH --container=/usr/local/apptainer/images/pytorch/latest/torch2.7-tf2.20-cu128.sif            # Specifies the Apptainer image to use.
@@ -63,9 +63,9 @@ echo "Listing files: $(ls)"
 
 echo "Starting python script..."
 # Run training script as a single command (all args on one line for clarity)
-python main.py --dataset_name celebA --batch_size 256 --HR_img_size 64 --scale_factor 2 \
-    --learning_rate 0.001 --beta_1 0.5 --beta_2 0.999 --weight_decay 0.0001 \
-    --lam_rec 15 --lam_idem 10 --lam_tight 5 --lam_SR 15 --a 3 \
-    --epochs 2
-#
+# python main.py --dataset_name celebA --batch_size 256 --HR_img_size 64 --scale_factor 2 \
+#     --learning_rate 0.001 --beta_1 0.5 --beta_2 0.999 --weight_decay 0.0001 \
+#     --lam_rec 15 --lam_idem 10 --lam_tight 5 --lam_SR 15 --a 3 \
+#     --epochs 2
+python list_packages.py
 echo "Mission Complete."
