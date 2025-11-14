@@ -7,12 +7,15 @@ __pycache__/
 # Exclude VS Code's workspace settings
 .vscode/
 
-# Optionally, if data and models are too large:
+# Exclude datasets (too large)
 data/
-# models/
+
+# Exclude notebooks since their use is for visualization
+notebooks/
+
+# model weights (may be too large)
+model_weights.pth
 
 # Other
-notebooks/
-file_structure_example
-model_weights.pth
+file_structure_example.txt
 HPC_installed_packages.txt
