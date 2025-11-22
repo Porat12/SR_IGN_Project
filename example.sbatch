@@ -57,17 +57,15 @@ echo "--- Launching Primary Command ---"
 
 echo "Changing directory to project folder..."
 cd /rg/shocher_prj/porat.hai/SR_IGN_Project
-cd utils/download_datasets
 
 echo "Current directory: $(pwd)"
 echo "Listing files: $(ls)"
 
 echo "Starting python script..."
 # Run training script as a single command (all args on one line for clarity)
-# python main.py --dataset_name celebA --batch_size 256 --HR_img_size 64 --scale_factor 2 \
-#     --learning_rate 0.001 --beta_1 0.5 --beta_2 0.999 --weight_decay 0.0001 \
-#     --lam_rec 15 --lam_idem 10 --lam_tight 5 --lam_SR 15 --a 3 \
-#     --epochs 2
+python main.py --dataset_name MNIST --model_cfg_name MNIST_conv_relu --batch_size 256 --HR_img_size 64 --scale_factor 2 \
+    --learning_rate 0.001 --beta_1 0.5 --beta_2 0.999 --weight_decay 0.0001 \
+    --lam_rec 15 --lam_idem 10 --lam_tight 5 --lam_SR 15 --a 3 \
+    --epochs 1
 
-python download_DIV2K.py
 echo "Mission Complete."

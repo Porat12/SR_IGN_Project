@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-class Down_Conv_Relu_Block(nn.Module):
+class DownConvReluBlock(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size, padding, stride):
         super().__init__()
         self.block = nn.Sequential(
@@ -13,7 +13,7 @@ class Down_Conv_Relu_Block(nn.Module):
         x = self.block(x)
         return x
 
-class Up_ConvT_Relu_Block(nn.Module):
+class UpConvTransposeReluBlock(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size, padding, stride):
         super().__init__()
         self.block = nn.Sequential(

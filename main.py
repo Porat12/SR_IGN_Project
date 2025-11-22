@@ -1,12 +1,9 @@
 import torch
 import torch.optim as optim
 from torch.optim.lr_scheduler import CosineAnnealingLR
-import matplotlib
 
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-
-from models import Conv_Relu_Architecture, Conv_Relu_MaxPool_Architecture
+from models.model_builder import Autoencoder
+from yaml_processing import register_yaml_constructors, read_yaml_config
 from losses import SR_IGN_loss_for_train, SR_IGN_loss_for_test
 import constants
 
@@ -19,18 +16,10 @@ import math
 import argparse
 from helpers import get_data_loader
 
-
-# convert from [C,H,W] to [H,W,C] for matplotlib
-def show(tensor, title):
-    img = tensor.permute(1, 2, 0).cpu().numpy()
-    plt.imshow(img)
-    plt.axis("off")
-    plt.title(title)
-
-
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--dataset_name')
+parser.add_argument('--model_cfg_name')
 parser.add_argument('--batch_size', type=int)
 parser.add_argument('--HR_img_size', type=int)
 parser.add_argument('--scale_factor', type=int)
@@ -57,43 +46,15 @@ print(f"Using {constants.device} device")
 # ssim_metric = StructuralSimilarityIndexMeasure(data_range=1.0).to(device)
 # psnr_metric = PeakSignalNoiseRatio(data_range=1.0).to(device)
 
-# model_args = {"encoder": 
-#     [{"in_channels":1,"out_channels":32,"kernel_size":4,"padding":1,"stride":2},
-#     {"in_channels":32,"out_channels":128,"kernel_size":4,"padding":1,"stride":2},
-#     {"in_channels":128,"out_channels":256,"kernel_size":4,"padding":1,"stride":2},
-#     {"in_channels":256,"out_channels":512,"kernel_size":4,"padding":1,"stride":2}],
-#     "decoder":
-#     [{"in_channels":512,"out_channels":256,"kernel_size":4,"padding":1,"stride":2},
-#      {"in_channels":256,"out_channels":128,"kernel_size":4,"padding":1,"stride":2},
-#      {"in_channels":128,"out_channels":32,"kernel_size":4,"padding":1,"stride":2},
-#      {"in_channels":32,"out_channels":1,"kernel_size":4,"padding":1,"stride":2}]
-#     }
-    
-model_args = {"encoder": 
-    [{"in_channels":3,"out_channels":6,"kernel_size":4,"padding":1,"stride":2},
-    {"in_channels":6,"out_channels":10,"kernel_size":4,"padding":1,"stride":2}],
-    "decoder":
-    [{"in_channels":10,"out_channels":6,"kernel_size":4,"padding":1,"stride":2},
-     {"in_channels":6,"out_channels":3,"kernel_size":4,"padding":1,"stride":2}]
-    }
+model_config_path = f"model_configurations\model_cfg_{args.dataset_name}\{args.model_cfg_name}.yaml"
 
-# model_args = {"encoder": 
-#               [{"in_channels":1, "out_channels":8, "conv_kernel_size":3, "conv_padding":1, "pool_kernel_size":2, "pool_stride":2},
-#                {"in_channels":8, "out_channels":32, "conv_kernel_size":3, "conv_padding":1, "pool_kernel_size":2, "pool_stride":2},
-#                {"in_channels":32, "out_channels":64, "conv_kernel_size":3, "conv_padding":1, "pool_kernel_size":2, "pool_stride":2},
-#                {"in_channels":64, "out_channels":128, "conv_kernel_size":3, "conv_padding":1, "pool_kernel_size":2, "pool_stride":2}],
-#             "decoder": 
-#             [{"in_channels":128, "out_channels":64, "conv_kernel_size":3, "conv_padding":1, "pool_kernel_size":2, "pool_stride":2},
-#              {"in_channels":64, "out_channels":32, "conv_kernel_size":3, "conv_padding":1, "pool_kernel_size":2, "pool_stride":2},
-#              {"in_channels":32, "out_channels":8, "conv_kernel_size":3, "conv_padding":1, "pool_kernel_size":2, "pool_stride":2},
-#              {"in_channels":8, "out_channels":1, "conv_kernel_size":3, "conv_padding":1, "pool_kernel_size":2, "pool_stride":2}]
-#             }
+register_yaml_constructors()
+model_config = read_yaml_config(model_config_path)["model"]
 
-model = Conv_Relu_Architecture(model_args).to(constants.device)
-model_copy = Conv_Relu_Architecture(model_args).to(constants.device)
+model = Autoencoder(model_config["encoder"], model_config["decoder"]).to(constants.device)
+model_copy = Autoencoder(model_config["encoder"], model_config["decoder"]).to(constants.device)
 
 print(model)
-
 
 optimizer = optim.Adam(
     model.parameters(),    # the parameters to optimize
