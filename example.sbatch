@@ -8,7 +8,7 @@
 #SBATCH --output=slurm-%j.out         # Redirects standard output to a file named with the job ID.
 #SBATCH --error=slurm-%j.err          # Redirects standard error to a file.
 #SBATCH --nodes=1                     # Confines the job to a single node for efficient GPU communication.
-#SBATCH --mem=3G
+#SBATCH --mem=12G
 #SBATCH --ntasks=1                    # Runs the entire job as a single task.
 #SBATCH --time=00:20:00
 # --- Mail notification ---
@@ -56,7 +56,7 @@ echo "--- Launching Primary Command ---"
 # --- Launching Primary Command ---
 
 echo "Changing directory to project folder..."
-cd /rg/shocher_prj/porat.hai/SR_IGN_Project
+cd /rg/shocher_prj/porat.hai/SR_IGN_Project/utils/download_datasets
 
 echo "Current directory: $(pwd)"
 echo "Listing files: $(ls)"
