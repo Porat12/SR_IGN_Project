@@ -1,0 +1,303 @@
+================================================================
+Timestamp            : Mon Nov 24 13:54:14 UTC 2025
+Host                 : athena-post
+SLURM Job ID         : 26585
+Apptainer Container  : /usr/local/apptainer/images/pytorch/latest/torch2.7-tf2.20-cu128.sif
+Container Mounts     : /root/.Xauthority
+GPU(s) Allocated     : 0
+================================================================
+
+--- Verifying GPU Accessibility Inside Container ---
+Mon Nov 24 13:54:14 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 570.124.06             Driver Version: 570.124.06     CUDA Version: 12.8     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:E5:00.0 Off |                    0 |
+| N/A   25C    P8             31W /  350W |       1MiB /  46068MiB |      0%   E. Process |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Filesystem                                                                     Size  Used Avail Use% Mounted on
+fuse-overlayfs                                                                 1.2T   40K  1.2T   1% /
+devtmpfs                                                                       4.0M     0  4.0M   0% /dev
+tmpfs                                                                          1.2T  184M  1.2T   1% /dev/shm
+/dev/md126                                                                     893G   94G  799G  11% /etc/hosts
+/dev/md0p1                                                                     7.0T  754G  6.3T  11% /scratch
+tmpfs                                                                          454G  3.1M  454G   1% /run/munge/munge.socket.2
+hpc-nfs2:/athena/rlocal/apptainer/profile.d/y-local.sh                         1.0T  133G  892G  13% /.singularity.d/env/y-local.sh
+efivarfs                                                                       128K   51K   73K  42% /sys/firmware/efi/efivars
+tmpfs                                                                          1.2T   40K  1.2T   1% /.singularity.d/libs
+hpc-nfs2:/athena/rlocal/cuda-12.8/targets/x86_64-linux/lib/libOpenCL.so.1.0.0  1.0T  133G  892G  13% /.singularity.d/libs/libOpenCL.so
+hpc-nfs1:/home/porat.hai/.Xauthority                                            50T   32T   19T  64% /root/.Xauthority
+hpc-nfs2:/rg/shocher_prj/porat.hai/SR_IGN_Project                              2.0T   13G  2.0T   1% /rg/shocher_prj/porat.hai/SR_IGN_Project
+tmpfs                                                                          1.2T   12K  1.2T   1% /proc/driver/nvidia
+--- Launching Primary Command ---
+Changing directory to project folder...
+Current directory: /rg/shocher_prj/porat.hai/SR_IGN_Project
+Listing files: README.md
+SRdata
+__pycache__
+configurations
+constants.py
+data
+example.sbatch
+loops
+losses
+main.py
+model_weights.pth
+models
+optimization_builders.py
+run.sh
+slurm-26584.err
+slurm-26584.out
+slurm-26585.err
+slurm-26585.out
+utils
+yaml_processing.py
+Starting python script...
+--------------------------------------------------------------------------------
+Starting SR-IGN training script...
+Using cuda device.
+--------------------------------------------------------------------------------
+Registers all necessary custom constructors for PyYAML:
+----  Custom YAML constructor for !BlockType registered.
+All constructors registered successfully.
+--------------------------------------------------------------------------------
+YAML configuration file read successfully.
+--------------------------------------------------------------------------------
+Model architecture:
+
+Autoencoder(
+  (encoder): Encoder(
+    (encoder): ModelBuilder(
+      (model): Sequential(
+        (0): DownConvReluBlock(
+          (block): Sequential(
+            (0): Conv2d(1, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (1): DownConvReluBlock(
+          (block): Sequential(
+            (0): Conv2d(32, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (2): DownConvReluBlock(
+          (block): Sequential(
+            (0): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (3): DownConvReluBlock(
+          (block): Sequential(
+            (0): Conv2d(256, 512, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+      )
+    )
+  )
+  (decoder): Decoder(
+    (decoder): ModelBuilder(
+      (model): Sequential(
+        (0): UpConvTransposeReluBlock(
+          (block): Sequential(
+            (0): ConvTranspose2d(512, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (1): UpConvTransposeReluBlock(
+          (block): Sequential(
+            (0): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (2): UpConvTransposeReluBlock(
+          (block): Sequential(
+            (0): ConvTranspose2d(128, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (3): UpConvTransposeReluBlock(
+          (block): Sequential(
+            (0): ConvTranspose2d(32, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+      )
+    )
+  )
+)
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Builders:
+----  dataloaders built successfully.
+
+----  optimizer built successfully.
+
+----  scheduler built successfully. is_batch_scheduler: False
+
+----  loss functions built successfully. Train loss: SR_IGN_loss_for_train, Test loss: SR_IGN_loss_for_test
+--------------------------------------------------------------------------------
+
+
+
+Epoch [1/10], Avg epoch time 0.000000 sec 
+-------------------------------
+loss: 3.167023  [   64/60000]------- Avg batch time: 41030 μs
+loss: 1.782895  [ 6016/60000]------- Avg batch time: 9956 μs
+loss: 1.244269  [11968/60000]------- Avg batch time: 9633 μs
+loss: 0.925586  [17920/60000]------- Avg batch time: 9583 μs
+loss: 0.750514  [23872/60000]------- Avg batch time: 9586 μs
+loss: 0.536853  [29824/60000]------- Avg batch time: 9653 μs
+loss: 0.489393  [35776/60000]------- Avg batch time: 9559 μs
+loss: 0.403380  [41728/60000]------- Avg batch time: 9548 μs
+loss: 0.332595  [47680/60000]------- Avg batch time: 9569 μs
+loss: 0.291472  [53632/60000]------- Avg batch time: 9561 μs
+loss: 0.270750  [59584/60000]------- Avg batch time: 9558 μs
+Avg Test loss: 0.246440
+Epoch [2/10], Avg epoch time 12.811544 sec 
+-------------------------------
+loss: 0.270386  [   64/60000]------- Avg batch time: 76 μs
+loss: 0.236481  [ 6016/60000]------- Avg batch time: 7810 μs
+loss: 0.196712  [11968/60000]------- Avg batch time: 9576 μs
+loss: 0.177140  [17920/60000]------- Avg batch time: 9581 μs
+loss: 0.189774  [23872/60000]------- Avg batch time: 9572 μs
+loss: 0.173188  [29824/60000]------- Avg batch time: 9560 μs
+loss: 0.168120  [35776/60000]------- Avg batch time: 9554 μs
+loss: 0.159370  [41728/60000]------- Avg batch time: 9582 μs
+loss: 0.161756  [47680/60000]------- Avg batch time: 9588 μs
+loss: 0.153040  [53632/60000]------- Avg batch time: 9567 μs
+loss: 0.146060  [59584/60000]------- Avg batch time: 9538 μs
+Avg Test loss: 0.142392
+Epoch [3/10], Avg epoch time 11.678122 sec 
+-------------------------------
+loss: 0.152949  [   64/60000]------- Avg batch time: 75 μs
+loss: 0.151964  [ 6016/60000]------- Avg batch time: 6380 μs
+loss: 0.129419  [11968/60000]------- Avg batch time: 6379 μs
+loss: 0.138210  [17920/60000]------- Avg batch time: 6348 μs
+loss: 0.127143  [23872/60000]------- Avg batch time: 6380 μs
+loss: 0.123980  [29824/60000]------- Avg batch time: 6364 μs
+loss: 0.112955  [35776/60000]------- Avg batch time: 6369 μs
+loss: 0.107102  [41728/60000]------- Avg batch time: 6350 μs
+loss: 0.106584  [47680/60000]------- Avg batch time: 6364 μs
+loss: 0.114940  [53632/60000]------- Avg batch time: 6368 μs
+loss: 0.107386  [59584/60000]------- Avg batch time: 6365 μs
+Avg Test loss: 0.105715
+Epoch [4/10], Avg epoch time 10.793912 sec 
+-------------------------------
+loss: 0.109371  [   64/60000]------- Avg batch time: 78 μs
+loss: 0.106602  [ 6016/60000]------- Avg batch time: 6363 μs
+loss: 0.102694  [11968/60000]------- Avg batch time: 6335 μs
+loss: 0.103918  [17920/60000]------- Avg batch time: 6337 μs
+loss: 0.100692  [23872/60000]------- Avg batch time: 6337 μs
+loss: 0.102622  [29824/60000]------- Avg batch time: 6333 μs
+loss: 0.101769  [35776/60000]------- Avg batch time: 6361 μs
+loss: 0.084632  [41728/60000]------- Avg batch time: 6363 μs
+loss: 0.094464  [47680/60000]------- Avg batch time: 6364 μs
+loss: 0.084017  [53632/60000]------- Avg batch time: 6356 μs
+loss: 0.089159  [59584/60000]------- Avg batch time: 6334 μs
+Avg Test loss: 0.090364
+Epoch [5/10], Avg epoch time 10.344681 sec 
+-------------------------------
+loss: 0.110021  [   64/60000]------- Avg batch time: 77 μs
+loss: 0.081746  [ 6016/60000]------- Avg batch time: 6335 μs
+loss: 0.078629  [11968/60000]------- Avg batch time: 6348 μs
+loss: 0.081074  [17920/60000]------- Avg batch time: 6363 μs
+loss: 0.076637  [23872/60000]------- Avg batch time: 6354 μs
+loss: 0.080131  [29824/60000]------- Avg batch time: 6368 μs
+loss: 0.081323  [35776/60000]------- Avg batch time: 6351 μs
+loss: 0.081282  [41728/60000]------- Avg batch time: 6335 μs
+loss: 0.083445  [47680/60000]------- Avg batch time: 6335 μs
+loss: 0.083104  [53632/60000]------- Avg batch time: 6350 μs
+loss: 0.081113  [59584/60000]------- Avg batch time: 6338 μs
+Avg Test loss: 0.077400
+Epoch [6/10], Avg epoch time 10.074608 sec 
+-------------------------------
+loss: 0.085538  [   64/60000]------- Avg batch time: 75 μs
+loss: 0.074777  [ 6016/60000]------- Avg batch time: 6381 μs
+loss: 0.069532  [11968/60000]------- Avg batch time: 6378 μs
+loss: 0.067839  [17920/60000]------- Avg batch time: 6326 μs
+loss: 0.072475  [23872/60000]------- Avg batch time: 6359 μs
+loss: 0.069569  [29824/60000]------- Avg batch time: 6329 μs
+loss: 0.065089  [35776/60000]------- Avg batch time: 6344 μs
+loss: 0.068143  [41728/60000]------- Avg batch time: 6369 μs
+loss: 0.071600  [47680/60000]------- Avg batch time: 6385 μs
+loss: 0.068079  [53632/60000]------- Avg batch time: 6369 μs
+loss: 0.066978  [59584/60000]------- Avg batch time: 6350 μs
+Avg Test loss: 0.065242
+Epoch [7/10], Avg epoch time 9.891297 sec 
+-------------------------------
+loss: 0.061813  [   64/60000]------- Avg batch time: 78 μs
+loss: 0.064897  [ 6016/60000]------- Avg batch time: 6365 μs
+loss: 0.070058  [11968/60000]------- Avg batch time: 6384 μs
+loss: 0.066311  [17920/60000]------- Avg batch time: 6385 μs
+loss: 0.059252  [23872/60000]------- Avg batch time: 6370 μs
+loss: 0.063730  [29824/60000]------- Avg batch time: 6384 μs
+loss: 0.063575  [35776/60000]------- Avg batch time: 6358 μs
+loss: 0.062031  [41728/60000]------- Avg batch time: 6334 μs
+loss: 0.061568  [47680/60000]------- Avg batch time: 6380 μs
+loss: 0.057251  [53632/60000]------- Avg batch time: 6369 μs
+loss: 0.060835  [59584/60000]------- Avg batch time: 6412 μs
+Avg Test loss: 0.063268
+Epoch [8/10], Avg epoch time 9.765135 sec 
+-------------------------------
+loss: 0.066129  [   64/60000]------- Avg batch time: 75 μs
+loss: 0.053441  [ 6016/60000]------- Avg batch time: 6337 μs
+loss: 0.061140  [11968/60000]------- Avg batch time: 6335 μs
+loss: 0.060478  [17920/60000]------- Avg batch time: 6337 μs
+loss: 0.056124  [23872/60000]------- Avg batch time: 6327 μs
+loss: 0.062104  [29824/60000]------- Avg batch time: 6339 μs
+loss: 0.056866  [35776/60000]------- Avg batch time: 6344 μs
+loss: 0.057140  [41728/60000]------- Avg batch time: 6345 μs
+loss: 0.051478  [47680/60000]------- Avg batch time: 6344 μs
+loss: 0.064245  [53632/60000]------- Avg batch time: 6344 μs
+loss: 0.051866  [59584/60000]------- Avg batch time: 6350 μs
+Avg Test loss: 0.054157
+Epoch [9/10], Avg epoch time 9.667841 sec 
+-------------------------------
+loss: 0.054778  [   64/60000]------- Avg batch time: 75 μs
+loss: 0.057370  [ 6016/60000]------- Avg batch time: 6376 μs
+loss: 0.051255  [11968/60000]------- Avg batch time: 6394 μs
+loss: 0.054232  [17920/60000]------- Avg batch time: 6388 μs
+loss: 0.054327  [23872/60000]------- Avg batch time: 6392 μs
+loss: 0.050337  [29824/60000]------- Avg batch time: 6397 μs
+loss: 0.051766  [35776/60000]------- Avg batch time: 6382 μs
+loss: 0.047787  [41728/60000]------- Avg batch time: 6365 μs
+loss: 0.055325  [47680/60000]------- Avg batch time: 6377 μs
+loss: 0.050522  [53632/60000]------- Avg batch time: 6372 μs
+loss: 0.058790  [59584/60000]------- Avg batch time: 6369 μs
+Avg Test loss: 0.050398
+Epoch [10/10], Avg epoch time 9.598267 sec 
+-------------------------------
+loss: 0.050072  [   64/60000]------- Avg batch time: 75 μs
+loss: 0.049068  [ 6016/60000]------- Avg batch time: 6361 μs
+loss: 0.049991  [11968/60000]------- Avg batch time: 6371 μs
+loss: 0.048648  [17920/60000]------- Avg batch time: 6371 μs
+loss: 0.048687  [23872/60000]------- Avg batch time: 6369 μs
+loss: 0.048247  [29824/60000]------- Avg batch time: 6370 μs
+loss: 0.046849  [35776/60000]------- Avg batch time: 6360 μs
+loss: 0.048644  [41728/60000]------- Avg batch time: 6366 μs
+loss: 0.044702  [47680/60000]------- Avg batch time: 6363 μs
+loss: 0.047841  [53632/60000]------- Avg batch time: 6378 μs
+loss: 0.050661  [59584/60000]------- Avg batch time: 6362 μs
+Avg Test loss: 0.048997
+Total time 95 sec 
+-------------------------------
+Done!
+Weights saved successfully.
+--------------------------------------------------------------------------------
+Mission Complete.
