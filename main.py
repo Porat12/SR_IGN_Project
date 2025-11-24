@@ -28,8 +28,8 @@ print("-"*80)
 # ssim_metric = StructuralSimilarityIndexMeasure(data_range=1.0).to(device)
 # psnr_metric = PeakSignalNoiseRatio(data_range=1.0).to(device)
 
-config_path = f"configurations\{args.relative_path_to_config}"
-# model_config_path = "/rg/shocher_prj/porat.hai/SR_IGN_Project/" +  model_config_path # only for HPC
+config_path = f"configurations/{args.relative_path_to_config}"
+config_path = "/rg/shocher_prj/porat.hai/SR_IGN_Project/" +  config_path # only for HPC
 
 register_yaml_constructors()
 print("-"*80)
