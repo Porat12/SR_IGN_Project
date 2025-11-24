@@ -1,7 +1,14 @@
 import torch
 import torch.nn.functional as F
 
-def SR_IGN_loss_for_train(f, f_copy, z, x, lam_rec, lam_idem, lam_tight, lam_SR, a = None):
+from .loss_registry import register_loss
+
+
+@register_loss("SR_IGN_loss_for_train")
+def SR_IGN_loss_for_train(f, f_copy, z, x, **loss_params):
+
+    lam_rec, lam_idem, lam_tight  = loss_params["lam_rec"], loss_params["lam_idem"], loss_params["lam_tight"]
+    lam_SR, a = loss_params["lam_SR"], loss_params.get("a", None)
 
     fx = f(x)
     fz = f(z)
@@ -29,8 +36,13 @@ def SR_IGN_loss_for_train(f, f_copy, z, x, lam_rec, lam_idem, lam_tight, lam_SR,
     
     return loss, info
 
+
+@register_loss("SR_IGN_loss_for_test")
 @torch.no_grad()
-def SR_IGN_loss_for_test(f, z, x, lam_rec, lam_idem, lam_tight, lam_SR, a = None):
+def SR_IGN_loss_for_test(f, z, x, **loss_params):
+
+    lam_rec, lam_idem, lam_tight  = loss_params["lam_rec"], loss_params["lam_idem"], loss_params["lam_tight"]
+    lam_SR, a = loss_params["lam_SR"], loss_params.get("a", None)
 
     fx = f(x)
     fz = f(z)

@@ -9,11 +9,16 @@ def block_type_constructor(loader, node):
 
 def register_yaml_constructors():
     """Registers all necessary custom constructors for PyYAML."""
+
+    print("Registers all necessary custom constructors for PyYAML:")
     yaml.add_constructor('!BlockType', block_type_constructor, Loader=yaml.SafeLoader)
-    print("Custom YAML constructor for !BlockType registered.")
+    print("----  Custom YAML constructor for !BlockType registered.")
+    print("All constructors registered successfully.")
 
 def read_yaml_config(file_path):
     """Reads a YAML configuration file and returns the parsed content."""
     with open(file_path, 'r') as file:
         config = config = yaml.safe_load(file)
+    
+    print("YAML configuration file read successfully.")
     return config

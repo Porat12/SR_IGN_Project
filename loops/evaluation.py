@@ -3,14 +3,11 @@ import constants
 # from torchmetrics.image import StructuralSimilarityIndexMeasure, PeakSignalNoiseRatio
 
 @torch.no_grad()
-def test_loop(dataloader, model, loss_func, args):
+def test_loop(dataloader, model, loss_func, **loss_params):
     # Set the model to evaluation mode
     model.eval()
 
     ordered_keys = constants.history_keys[1:]
-    lam_rec, lam_idem = args.lam_rec, args.lam_idem
-    lam_tight, lam_SR = args.lam_tight, args.lam_SR
-    a = args.a
 
     num_batches = len(dataloader)
 
@@ -25,7 +22,7 @@ def test_loop(dataloader, model, loss_func, args):
 
         SR_img = model(LR_img)
 
-        loss, info = loss_func(model, LR_img, HR_img, lam_rec, lam_idem, lam_tight, lam_SR, a)
+        loss, info = loss_func(model, LR_img, HR_img, **loss_params)
         
         loss_history.append(loss.item())
         

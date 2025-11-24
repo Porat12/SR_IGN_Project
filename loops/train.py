@@ -5,14 +5,11 @@ import constants
 import math
 
 
-def train_loop(dataloader, model, model_copy, loss_func, args, optimizer, scheduler = None):
+def train_loop(dataloader, model, model_copy, loss_func, optimizer, scheduler = None, batch_scheduler=False, **loss_params):
     # Set the model to training mode
     model.train()
 
     ordered_keys = constants.history_keys[1:]
-    lam_rec, lam_idem = args.lam_rec, args.lam_idem
-    lam_tight, lam_SR = args.lam_tight, args.lam_SR
-    a = args.a
 
     size = len(dataloader.dataset)
     num_batches = len(dataloader)
@@ -33,13 +30,13 @@ def train_loop(dataloader, model, model_copy, loss_func, args, optimizer, schedu
         HR_img = HR_img.to(constants.device)
 
         # Compute loss
-        loss, info = loss_func(model, model_copy, LR_img, HR_img, lam_rec, lam_idem, lam_tight, lam_SR, a)
+        loss, info = loss_func(model, model_copy, LR_img, HR_img, **loss_params)
 
         # Backpropagation
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        if scheduler is not None:
+        if scheduler is not None and batch_scheduler:
             scheduler.step()
         
 
@@ -57,6 +54,9 @@ def train_loop(dataloader, model, model_copy, loss_func, args, optimizer, schedu
             current = batch_idx * dataloader.batch_size + batch_len
             print(f"loss: {loss.item():>7f}  [{current:>5d}/{size:>5d}]------- Avg batch time: {math.floor(batch_time*10**6)} μs")
             batch_time = 0.0
+            
+    if scheduler is not None and not batch_scheduler:
+        scheduler.step()
 
     avg_loss = torch.mean(torch.tensor(loss_history)).item()
     
