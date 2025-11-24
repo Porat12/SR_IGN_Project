@@ -16,6 +16,9 @@ notebooks/
 # model weights (may be too large)
 model_weights.pth
 
+# WandB
+wandb/
+
 # Other
 file_structure_example.txt
 HPC_installed_packages.txt

@@ -8,4 +8,4 @@ class BlockType(Enum):
     UP_CONV_RELU = UpConvTransposeReluBlock
 
     DOWN_CONV_RELU_MAXPOOL = DownConvReluMaxpoolBlock
-    UP_CONV_RELU_MAXPOOL = UpConvTransposeReluMaxpoolBlock
+    UP_CONV_RELU_MAXPOOL = UpConvReluMaxpoolBlock
