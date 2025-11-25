@@ -4,13 +4,13 @@
 #
 
 # --- Job Configuration ---
-#SBATCH --job-name=simulation_1       # Descriptive name for tracking the job.
+#SBATCH --job-name=DIV2K_conv_relu    # Descriptive name for tracking the job.
 #SBATCH --output=slurm-%j.out         # Redirects standard output to a file named with the job ID.
 #SBATCH --error=slurm-%j.err          # Redirects standard error to a file.
 #SBATCH --nodes=1                     # Confines the job to a single node for efficient GPU communication.
-#SBATCH --mem=4G
+#SBATCH --mem=5G
 #SBATCH --ntasks=1                    # Runs the entire job as a single task.
-#SBATCH --time=00:15:00
+#SBATCH --time=00:25:00
 # --- Mail notification ---
 #SBATCH --mail-type=ALL               # Valid notification types: NONE, BEGIN, END, FAIL, REQUEUE, ALL, INVALID_DEPEND, STAGE_OUT, TIME_LIMIT, TIME_LIMIT_90, TIME_LIMIT_80, TIME_LIMIT_50 and ARRAY_TASKS
 #SBATCH --mail-user=porat.hai@campus.technion.ac.il
@@ -64,6 +64,6 @@ echo "Listing files: $(ls)"
 echo "Starting python script..."
 # Run training script as a single command (all args on one line for clarity)
 
-python main.py --train --relative_path_to_config MNIST_configurations/MNIST_conv_relu_maxpool.yaml
+python main.py --relative_path_to_config DIV2K_configurations/DIV2K_conv_relu.yaml
 
 echo "Mission Complete."
