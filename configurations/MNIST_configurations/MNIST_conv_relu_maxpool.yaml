@@ -99,5 +99,5 @@ loss :
     a: 3
 
 training:
-  batch_size: 64
-  epochs: 10
+  batch_size: 512
+  epochs: 30

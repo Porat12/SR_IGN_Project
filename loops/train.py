@@ -13,7 +13,7 @@ def train_loop(dataloader, model, model_copy, loss_func, optimizer, scheduler = 
 
     size = len(dataloader.dataset)
     num_batches = len(dataloader)
-    report_time = num_batches // 10
+    report_time = num_batches // 10 if num_batches >=10 else 3
 
     batch_time = 0.0
     loss_history = []

@@ -1,6 +1,5 @@
 import torch
 import wandb
-import os
 
 import argparse
 
@@ -13,7 +12,7 @@ from losses.loss_builder import build_loss
 
 from loops.epochs_loop import epochs_loop
 
-from SRdata.dataloader_builders import build_dataloaders
+from dataset_classes.dataloader_builders import build_dataloaders
 from utils.visualize import show_results
 
 parser = argparse.ArgumentParser()
@@ -31,7 +30,7 @@ args = parser.parse_args()
 # psnr_metric = PeakSignalNoiseRatio(data_range=1.0).to(device)
 
 config_path = f"configurations/{args.relative_path_to_config}"
-config_path = "/rg/shocher_prj/porat.hai/SR_IGN_Project/" +  config_path # only for HPC
+# config_path = "/rg/shocher_prj/porat.hai/SR_IGN_Project/" +  config_path # only for HPC
 
 register_yaml_constructors()
 print("-"*80)
@@ -118,13 +117,16 @@ HR_batch = HR_batch[:n]
 with torch.no_grad():
     SR_batch = model(LR_batch.to(constants.device))
 
+
+
+
 show_results(LR_batch, SR_batch, HR_batch, save_path="results.png")
 
 wandb.log({
     "LR": [wandb.Image(img, caption="LR Images") 
-                   for img in SR_batch.cpu()],
+                   for img in LR_batch.cpu()],
     "SR": [wandb.Image(img, caption="SR Images") 
-                   for img in SR_batch.cpu()],
+    for img in SR_batch.cpu()],
     "HR": [wandb.Image(img, caption="HR Images") 
                    for img in HR_batch.cpu()]
 })
