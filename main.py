@@ -1,5 +1,6 @@
 import torch
 import wandb
+import os
 
 import argparse
 
@@ -30,7 +31,7 @@ args = parser.parse_args()
 # psnr_metric = PeakSignalNoiseRatio(data_range=1.0).to(device)
 
 config_path = f"configurations/{args.relative_path_to_config}"
-# config_path = "/rg/shocher_prj/porat.hai/SR_IGN_Project/" +  config_path # only for HPC
+config_path = "/rg/shocher_prj/porat.hai/SR_IGN_Project/" +  config_path # only for HPC
 
 register_yaml_constructors()
 print("-"*80)
@@ -47,7 +48,8 @@ print(f"Using {constants.device} device.")
 print("-"*80)
 
 
-wandb.login()
+# wandb.login() # for local PC
+wandb.login(key=constants.wandb_key) # for HPC
 
 wandb.init(
 project = "Super Resolution Using an Idempotent Neural Network",

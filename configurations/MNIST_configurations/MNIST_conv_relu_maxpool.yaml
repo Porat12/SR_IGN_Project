@@ -100,4 +100,4 @@ loss :
 
 training:
   batch_size: 64
-  epochs: 1
+  epochs: 10

@@ -10,6 +10,7 @@ from utils.wandb_utils import log_with_prefix
 def epochs_loop(epochs, train_loader, test_loader, model, model_copy, train_loss, test_loss, optimizer, scheduler, is_batch_scheduler, **loss_params):
     epoch_time = 0.0
     for t in range(epochs):
+        print("-------------------------------")
         print(f"Epoch [{t+1}/{epochs}], Avg epoch time {epoch_time:>4f} sec \n-------------------------------")
         epoch_start_time = time.time()
 
