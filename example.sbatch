@@ -16,7 +16,7 @@
 #SBATCH --mail-user=porat.hai@campus.technion.ac.il
 
 # --- Resource Allocation ---
-#SBATCH --partition=l40s-public       # Submits the job to the dedicated L40S GPU  partition or the “-l40s-shared” if you do not mind being Preempted on nodes which are not public.
+#SBATCH --partition=l40s-shared       # Submits the job to the dedicated L40S GPU  partition or the “-l40s-shared” if you do not mind being Preempted on nodes which are not public.
 #SBATCH --qos=2h_2g                  # Assigns the job to the public '24h_4g' Quality of Service tier for running jobs on public nodes partition “l40s-public”.
 #SBATCH --gres=gpu:nvidia_l40s:1      
 #SBATCH --cpus-per-gpu=8             # Allocates CPU cores per requested GPU, ensuring no I/O bottleneck.

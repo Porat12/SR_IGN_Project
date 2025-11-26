@@ -1,0 +1,12 @@
+INFO:    Setting 'NVIDIA_VISIBLE_DEVICES=all' to emulate legacy GPU binding.
+INFO:    Setting --writable-tmpfs (required by nvidia-container-cli)
+wandb: No netrc file found, creating one.
+wandb: Appending key for api.wandb.ai to your netrc file: /root/.netrc
+wandb: Currently logged in as: porat-hai (porat-hai-technion-israel-institute-of-technology) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run a3l9yhj6
+wandb: Tracking run with wandb version 0.22.3
+wandb: Run data is saved locally in /rg/shocher_prj/porat.hai/SR_IGN_Project/wandb/run-20251126_130758-a3l9yhj6
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run fresh-feather-29
+wandb: ⭐️ View project at https://wandb.ai/porat-hai-technion-israel-institute-of-technology/Super%20Resolution%20Using%20an%20Idempotent%20Neural%20Network
+wandb: 🚀 View run at https://wandb.ai/porat-hai-technion-israel-institute-of-technology/Super%20Resolution%20Using%20an%20Idempotent%20Neural%20Network/runs/a3l9yhj6

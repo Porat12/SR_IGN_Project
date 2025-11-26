@@ -118,7 +118,7 @@ with torch.no_grad():
 
 
 show_results(LR_batch, SR_batch, HR_batch, save_path="results.png")
-
+print(LR_batch[0].shape)
 wandb.log({
     "LR": [wandb.Image(img, caption="LR Images") 
                    for img in LR_batch.cpu()],
