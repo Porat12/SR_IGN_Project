@@ -64,6 +64,6 @@ echo "Listing files: $(ls)"
 echo "Starting python script..."
 # Run training script as a single command (all args on one line for clarity)
 
-python main.py --relative_path_to_config DIV2K_configurations/DIV2K_conv_relu.yaml
+python main.py --train --relative_path_to_config DIV2K_configurations/DIV2K_conv_relu.yaml
 
 echo "Mission Complete."
