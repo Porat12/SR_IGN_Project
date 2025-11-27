@@ -41,7 +41,6 @@ print("-"*80)
 print("-"*80)
 if args.train:
     print("Starting SR-IGN training script...")
-print("Starting SR-IGN training script...")
 print(f"Using {constants.device} device.")
 print("-"*80)
 
