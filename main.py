@@ -11,6 +11,7 @@ from optimization_builders import build_optimizer, build_scheduler
 from losses.loss_builder import build_loss
 
 from loops.epochs_loop import epochs_loop
+from loops.evaluation import eval_loop
 
 from dataset_classes.dataloader_builders import build_dataloaders
 from utils.visualize import show_results
@@ -23,6 +24,11 @@ parser.add_argument('--results_path', default='results.png')
 
 args = parser.parse_args()
 
+
+
+
+# ssim_metric = StructuralSimilarityIndexMeasure(data_range=1.0).to(device)
+# psnr_metric = PeakSignalNoiseRatio(data_range=1.0).to(device)
 
 config_path = f"configurations/{args.relative_path_to_config}"
 
@@ -70,7 +76,8 @@ print("Builders:")
 data_config = config["data"]
 train_loader, test_loader, valid_loader = build_dataloaders(batch_size, **data_config)
 eval_loader = test_loader if valid_loader is None else valid_loader
-
+if valid_loader is None:
+    print("----  No validation loader provided, using test loader for validation. not good ):\n")
 print("----  dataloaders built successfully.\n")
 
 if args.train:
@@ -91,6 +98,13 @@ if args.train:
 
 
     epochs_loop(epochs, train_loader, eval_loader, valid_loader, model, model_copy, train_loss, test_loss, optimizer, scheduler, is_batch_scheduler, **loss_config["params"])
+    print("Training completed.")
+    print("-"*80)
+
+    print("Test evaluation completed.")
+    eval_loop(eval_loader, model, test_loss, **loss_config["params"])
+    print("Evaluation completed.")
+    print("-"*80)
 
 
     # maybe should save in a folder
