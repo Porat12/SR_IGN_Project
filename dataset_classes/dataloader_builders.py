@@ -36,7 +36,7 @@ def build_dataloaders(batch_size, **data_config):
         
         return train_loader, test_loader
 
-    elif data_config["name"] == 'celebA':
+    elif data_config["name"] == 'CelebA':
         train_data = CelebADataset(
             root_dir="./data",
             split = 'train',
