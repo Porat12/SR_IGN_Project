@@ -1,6 +1,6 @@
 import torch
 import constants
-# from torchmetrics.image import StructuralSimilarityIndexMeasure, PeakSignalNoiseRatio
+from utils.metrics import psnr_batch, ssim_batch
 
 @torch.no_grad()
 def test_loop(dataloader, model, loss_func, **loss_params):
@@ -13,6 +13,9 @@ def test_loop(dataloader, model, loss_func, **loss_params):
 
     loss_history = []
     info_history = []
+
+    psnr = 0.0
+    ssim = 0.0
 
     # Evaluating the model with torch.no_grad() ensures that no gradients are computed during test mode
     for LR_img, HR_img in dataloader:
@@ -29,8 +32,9 @@ def test_loop(dataloader, model, loss_func, **loss_params):
         # Enforce a fixed order matching constants.history_keys (excluding total_loss)
         info_history.append([info[k] for k in ordered_keys])
 
-        # psnr_metric.update(SR_img, HR_img)
-        # ssim_metric.update(SR_img, HR_img)
+        psnr += psnr_batch(SR_img, HR_img)
+        ssim += ssim_batch(SR_img, HR_img)
+
 
     avg_loss = torch.mean(torch.tensor(loss_history)).item()
     
@@ -38,17 +42,11 @@ def test_loop(dataloader, model, loss_func, **loss_params):
     avg_info = torch.mean(torch.tensor(info_history, dtype=torch.float32), dim=0).tolist()
     avg_info = [avg_loss] + avg_info
 
-    # epoch_ssim = ssim_metric.compute()
-    # epoch_psnr = psnr_metric.compute()
-
-    # test_ssim = epoch_ssim.item()
-    # test_PSNR = epoch_psnr.item()
-
-    # ssim_metric.reset()
-    # psnr_metric.reset()
+    psnr /= num_batches
+    ssim /= num_batches
 
     output = f"Avg Test loss: {avg_loss:>8f}"
-    # output += f"| Avg PSNR: {test_PSNR:>4f} dB | Avg SSIM: {test_ssim:>4f}\n"
+    output += f"| Avg PSNR: {psnr:>4f} dB | Avg SSIM: {ssim:>4f}\n"
     print(output)
 
     return dict(zip(constants.history_keys, avg_info))
