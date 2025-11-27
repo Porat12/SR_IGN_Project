@@ -54,7 +54,7 @@ def train_loop(dataloader, model, model_copy, loss_func, optimizer, scheduler = 
             current = batch_idx * dataloader.batch_size + batch_len
             print(f"loss: {loss.item():>7f}  [{current:>5d}/{size:>5d}]------- Avg batch time: {math.floor(batch_time*10**6)} μs")
             batch_time = 0.0
-            
+
     if scheduler is not None and not batch_scheduler:
         scheduler.step()
 

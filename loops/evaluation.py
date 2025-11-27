@@ -3,7 +3,7 @@ import constants
 from utils.metrics import psnr_batch, ssim_batch
 
 @torch.no_grad()
-def test_loop(dataloader, model, loss_func, **loss_params):
+def test_loop(dataloader, model, loss_func, is_test, **loss_params):
     # Set the model to evaluation mode
     model.eval()
 
@@ -45,7 +45,8 @@ def test_loop(dataloader, model, loss_func, **loss_params):
     psnr /= num_batches
     ssim /= num_batches
 
-    output = f"Avg Test loss: {avg_loss:>8f}"
+    temp = "Test" if is_test else "Validation" 
+    output = f"Avg {temp} loss: {avg_loss:>8f}"
     output += f"| Avg PSNR: {psnr:>4f} dB | Avg SSIM: {ssim:>4f}\n"
     print(output)
 

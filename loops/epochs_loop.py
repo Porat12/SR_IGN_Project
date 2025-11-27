@@ -15,7 +15,7 @@ def epochs_loop(epochs, train_loader, test_loader, model, model_copy, train_loss
         epoch_start_time = time.time()
 
         train_stats = train_loop(train_loader, model, model_copy, train_loss, optimizer, scheduler, is_batch_scheduler, **loss_params)
-        test_stats = test_loop(test_loader, model, test_loss, **loss_params)
+        test_stats = test_loop(test_loader, model, test_loss, is_test=False, **loss_params)
 
         wandb.log({
                     **log_with_prefix("train", train_stats),
@@ -26,5 +26,6 @@ def epochs_loop(epochs, train_loader, test_loader, model, model_copy, train_loss
         epoch_end_time = time.time()
         epoch_time = (epoch_time * t + epoch_end_time - epoch_start_time) / (t + 1)
 
+    
     print(f"Total time {math.floor(epoch_time * epochs)} sec \n-------------------------------")
     print("Done!")
