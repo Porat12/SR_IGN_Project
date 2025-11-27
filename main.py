@@ -24,11 +24,6 @@ parser.add_argument('--results_path', default='results.png')
 args = parser.parse_args()
 
 
-
-
-# ssim_metric = StructuralSimilarityIndexMeasure(data_range=1.0).to(device)
-# psnr_metric = PeakSignalNoiseRatio(data_range=1.0).to(device)
-
 config_path = f"configurations/{args.relative_path_to_config}"
 
 register_yaml_constructors()
