@@ -67,7 +67,7 @@ model:
 
 data:
   name: DIV2K
-  crop_size: 32
+  crop_size: 64
   scale_factor: 2
 
 optimizer:
@@ -80,7 +80,7 @@ optimizer:
 scheduler:
   name: CosineAnnealingLR
   params:
-    T_max: 10
+    T_max: 100
     eta_min: 0.000001
   is_batch_scheduler: False
 
@@ -95,7 +95,7 @@ loss :
     a: 3
 
 training:
-  batch_size: 512
-  epochs: 10
+  batch_size: 256
+  epochs: 100
 
 
