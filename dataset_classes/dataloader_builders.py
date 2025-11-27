@@ -34,12 +34,20 @@ def build_dataloaders(batch_size, **data_config):
                         shuffle=True
                         )
         
-        return train_loader, test_loader
+        return train_loader, test_loader, None
 
     elif data_config["name"] == 'CelebA':
         train_data = CelebADataset(
             root_dir="./data",
             split = 'train',
+            image_size = data_config["img_size"],
+            scale = data_config["scale_factor"]
+            
+        )
+
+        valid_data = CelebADataset(
+            root_dir="./data",
+            split = 'valid',
             image_size = data_config["img_size"],
             scale = data_config["scale_factor"]
             
@@ -59,13 +67,19 @@ def build_dataloaders(batch_size, **data_config):
                         shuffle=True
                         )
 
+        valid_loader = DataLoader(
+                        valid_data,
+                        batch_size = batch_size,
+                        shuffle=True
+                        )
+        
         test_loader = DataLoader(
                         test_data,
                         batch_size = batch_size,
                         shuffle=True
                         )
         
-        return train_loader, test_loader
+        return train_loader, test_loader, valid_loader
     
     elif data_config["name"] == 'DIV2K':
 
@@ -95,8 +109,8 @@ def build_dataloaders(batch_size, **data_config):
                         shuffle=True
                         )
         
-        return train_loader, test_loader
+        return train_loader, test_loader, None
     
-    return None, None
+    return None, None, None
 
 

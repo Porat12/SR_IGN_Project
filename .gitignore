@@ -26,3 +26,4 @@ visualization_of_images/
 check_celebA.py
 check_DIV2K.py
 check_MNIST.py
+check_metrics.py

@@ -68,7 +68,9 @@ if args.train:
 print("Builders:")
 
 data_config = config["data"]
-train_loader, test_loader = build_dataloaders(batch_size, **data_config)
+train_loader, test_loader, valid_loader = build_dataloaders(batch_size, **data_config)
+eval_loader = test_loader if valid_loader is None else valid_loader
+
 print("----  dataloaders built successfully.\n")
 
 if args.train:
@@ -88,7 +90,7 @@ if args.train:
     loss_config = config["loss"]
 
 
-    epochs_loop(epochs, train_loader, test_loader, model, model_copy, train_loss, test_loss, optimizer, scheduler, is_batch_scheduler, **loss_config["params"])
+    epochs_loop(epochs, train_loader, eval_loader, valid_loader, model, model_copy, train_loss, test_loss, optimizer, scheduler, is_batch_scheduler, **loss_config["params"])
 
 
     # maybe should save in a folder
