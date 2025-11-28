@@ -111,25 +111,17 @@ model.load_state_dict(torch.load('./model_weights.pth', weights_only=True))
 model = model.to(constants.device)
 model.eval()
 
-n = 5
+n = 10
 
 LR_batch, HR_batch = next(iter(test_loader))
-LR_batch = LR_batch[:n]
-HR_batch = HR_batch[:n]
+LR_batch = LR_batch[:n].to(constants.device)
+HR_batch = HR_batch[:n].to(constants.device)
 
 with torch.no_grad():
     SR_batch = model(LR_batch.to(constants.device))
 
 
 show_results(LR_batch, SR_batch, HR_batch, save_path="results.png")
-
-wandb.log({
-    "LR": [wandb.Image(img, caption="LR Images") 
-                   for img in LR_batch.cpu()],
-    "SR": [wandb.Image(img, caption="SR Images") 
-                    for img in SR_batch.cpu()],
-    "HR": [wandb.Image(img, caption="HR Images") 
-                   for img in HR_batch.cpu()]
-})
+print("Results saved successfully.")
 
 wandb.finish()
