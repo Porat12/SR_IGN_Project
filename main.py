@@ -113,15 +113,21 @@ model.eval()
 
 n = 10
 
-LR_batch, HR_batch = next(iter(test_loader))
-LR_batch = LR_batch[:n].to(constants.device)
-HR_batch = HR_batch[:n].to(constants.device)
+for i in range(5):
+    LR_batch, HR_batch = next(iter(test_loader))
+    current_batch_size = LR_batch.size(0)
 
-with torch.no_grad():
-    SR_batch = model(LR_batch.to(constants.device))
+    n_to_select = min(n, current_batch_size)
+    shuffled_indices = torch.randperm(current_batch_size)[:n_to_select]
 
+    LR_batch = LR_batch[shuffled_indices].to(constants.device)
+    HR_batch = HR_batch[shuffled_indices].to(constants.device)
 
-show_results(LR_batch, SR_batch, HR_batch, save_path="results.png")
+    with torch.no_grad():
+        SR_batch = model(LR_batch.to(constants.device))
+
+    show_results(LR_batch, SR_batch, HR_batch, save_path=f"results{i+1}.png")
+
 print("Results saved successfully.")
 
 wandb.finish()
