@@ -10,14 +10,14 @@
 #SBATCH --nodes=1                     # Confines the job to a single node for efficient GPU communication.
 #SBATCH --mem=6G
 #SBATCH --ntasks=1                    # Runs the entire job as a single task.
-#SBATCH --time=00:15:00
+#SBATCH --time=05:00:00
 # --- Mail notification ---
 #SBATCH --mail-type=ALL               # Valid notification types: NONE, BEGIN, END, FAIL, REQUEUE, ALL, INVALID_DEPEND, STAGE_OUT, TIME_LIMIT, TIME_LIMIT_90, TIME_LIMIT_80, TIME_LIMIT_50 and ARRAY_TASKS
 #SBATCH --mail-user=porat.hai@campus.technion.ac.il
 
 # --- Resource Allocation ---
 #SBATCH --partition=l40s-public       # Submits the job to the dedicated L40S GPU  partition or the “-l40s-shared” if you do not mind being Preempted on nodes which are not public.
-#SBATCH --qos=2h_2g                  # Assigns the job to the public '24h_4g' Quality of Service tier for running jobs on public nodes partition “l40s-public”.
+#SBATCH --qos=12h_4g                  # Assigns the job to the public '24h_4g' Quality of Service tier for running jobs on public nodes partition “l40s-public”.
 #SBATCH --gres=gpu:nvidia_l40s:1      
 #SBATCH --cpus-per-gpu=8             # Allocates CPU cores per requested GPU, ensuring no I/O bottleneck.
 
@@ -64,6 +64,6 @@ echo "Listing files: $(ls)"
 echo "Starting python script..."
 # Run training script as a single command (all args on one line for clarity)
 
-python main.py --train --relative_path_to_config CelebA_configurations/CelebA_conv_relu.yaml
+python main.py --train --relative_path_to_config CelebA_configurations/CelebA_stride_conv.yaml
 
 echo "Mission Complete."

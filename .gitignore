@@ -28,3 +28,4 @@ check_DIV2K.py
 check_MNIST.py
 check_metrics.py
 tmp_artifact_files/
+artifacts/

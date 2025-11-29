@@ -1,0 +1,1 @@
+python main.py --eval --artifact_name StrideConv_MNIST.config_weights:latest

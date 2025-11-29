@@ -105,6 +105,6 @@ loss :
 
 training:
   batch_size: 512
-  epochs: 30
+  epochs: 10
 
 
