@@ -8,9 +8,9 @@
 #SBATCH --output=slurm-%j.out         # Redirects standard output to a file named with the job ID.
 #SBATCH --error=slurm-%j.err          # Redirects standard error to a file.
 #SBATCH --nodes=1                     # Confines the job to a single node for efficient GPU communication.
-#SBATCH --mem=2G
+#SBATCH --mem=4G
 #SBATCH --ntasks=1                    # Runs the entire job as a single task.
-#SBATCH --time=00:10:00
+#SBATCH --time=00:30:00
 # --- Mail notification ---
 #SBATCH --mail-type=ALL               # Valid notification types: NONE, BEGIN, END, FAIL, REQUEUE, ALL, INVALID_DEPEND, STAGE_OUT, TIME_LIMIT, TIME_LIMIT_90, TIME_LIMIT_80, TIME_LIMIT_50 and ARRAY_TASKS
 #SBATCH --mail-user=porat.hai@campus.technion.ac.il
