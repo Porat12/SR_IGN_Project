@@ -114,13 +114,14 @@ if args.train:
     print("-"*80)
     print("\n")
 
+    print("-"*80)
     print("logging artifact...")
     torch.save(model.state_dict(), "tmp_artifact_files/weights.pt")
     shutil.copy(config_path, "tmp_artifact_files/config.yaml")
 
     artifact = wandb.Artifact(
-                name=f"{wandb.run.name}_config & weights",
-                type="config & weights",
+                name=f"{wandb.run.name}_config_weights",
+                type="config_weights",
                 description="Config, and final weights"
                 )
     
