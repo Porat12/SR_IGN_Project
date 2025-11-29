@@ -5,6 +5,8 @@ import argparse
 
 import constants
 
+import matplotlib.pyplot as plt
+
 from models.model_builder import Autoencoder
 from utils.yaml_processing import register_yaml_constructors, read_yaml_config
 from optimization_builders import build_optimizer, build_scheduler
@@ -14,7 +16,7 @@ from loops.epochs_loop import epochs_loop
 from loops.evaluation import test_loop
 
 from dataset_classes.dataloader_builders import build_dataloaders
-from utils.visualize import show_results
+from utils.visualize import create_results_fig
 
 parser = argparse.ArgumentParser()
 
@@ -126,7 +128,11 @@ for i in range(5):
     with torch.no_grad():
         SR_batch = model(LR_batch.to(constants.device))
 
-    show_results(LR_batch, SR_batch, HR_batch, save_path=f"results{i+1}.png")
+    fig = create_results_fig(LR_batch, SR_batch, HR_batch)
+
+    wandb.log({"Test/Visuale Results": wandb.Image(fig)})
+
+    plt.close(fig)
 
 print("Results saved successfully.")
 

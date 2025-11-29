@@ -12,7 +12,7 @@ def show(tensor, title):
     plt.axis("off")
     plt.title(title, fontsize=10)
 
-def show_results(LR_images, SR_images, HR_images, save_path):
+def create_results_fig(LR_images, SR_images, HR_images):
     n = len(LR_images)
 
     bicubic_result_psnr = [pnsr(LR_images[i], HR_images[i]) for i in range(n)]
@@ -21,13 +21,12 @@ def show_results(LR_images, SR_images, HR_images, save_path):
     model_result_psnr = [pnsr(SR_images[i], HR_images[i]) for i in range(n)]
     model_result_ssims = [ssim(SR_images[i], HR_images[i]) for i in range(n)]
 
-    # The layout will be 3 rows (LR, SR, HR) and 'n' columns (for each image).
-    plt.figure(figsize=(3 * n, 9)) # Adjust figure size for 'n' images side-by-side
+    # Create the figure object explicitly
+    fig = plt.figure(figsize=(3 * n, 9)) 
 
     for i in range(n):
         # --- LR Images (Row 1) ---
         plt.subplot(3, n, i + 1)
-        # Format metrics for the title
         title_lr = (
             f"LR\nPSNR: {bicubic_result_psnr[i]:.2f} dB\n"
             f"SSIM: {bicubic_result_ssims[i]:.4f}"
@@ -36,7 +35,6 @@ def show_results(LR_images, SR_images, HR_images, save_path):
 
         # --- SR Images (Row 2) ---
         plt.subplot(3, n, n + i + 1)
-        # Format metrics for the title
         title_sr = (
             f"SR\nPSNR: {model_result_psnr[i]:.2f} dB\n"
             f"SSIM: {model_result_ssims[i]:.4f}"
@@ -45,12 +43,9 @@ def show_results(LR_images, SR_images, HR_images, save_path):
 
         # --- HR Images (Row 3) ---
         plt.subplot(3, n, 2 * n + i + 1)
-        # HR images are the ground truth, so typically no metrics are reported against themself.
-        # We can just use a simple title.
         title_hr = f"HR {i + 1}"
         show(HR_images[i], title_hr)
 
-    # Adjust layout to prevent titles from overlapping
     plt.tight_layout()
-    plt.savefig(save_path)
-    plt.close()
+    
+    return fig
