@@ -7,7 +7,7 @@ from .train import train_loop
 from .evaluation import test_loop
 from utils.wandb_utils import log_with_prefix
 
-def epochs_loop(epochs, train_loader, test_loader, model, model_copy, train_loss, test_loss, optimizer, scheduler, is_batch_scheduler, **loss_params):
+def epochs_loop(epochs, train_loader, val_loader, model, model_copy, train_loss, test_loss, optimizer, scheduler, is_batch_scheduler, **loss_params):
     epoch_time = 0.0
     for t in range(epochs):
         print("-------------------------------")
@@ -15,11 +15,11 @@ def epochs_loop(epochs, train_loader, test_loader, model, model_copy, train_loss
         epoch_start_time = time.time()
 
         train_stats = train_loop(train_loader, model, model_copy, train_loss, optimizer, scheduler, is_batch_scheduler, **loss_params)
-        test_stats = test_loop(test_loader, model, test_loss, is_test=False, **loss_params)
+        val_stats = test_loop(val_loader, model, test_loss, is_test=False, **loss_params)
 
         wandb.log({
                     **log_with_prefix("train", train_stats),
-                    **log_with_prefix("test", test_stats),
+                    **log_with_prefix("validation", val_stats),
                     "epoch": t+1,
                 })
 

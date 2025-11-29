@@ -9,8 +9,6 @@ def train_loop(dataloader, model, model_copy, loss_func, optimizer, scheduler = 
     # Set the model to training mode
     model.train()
 
-    ordered_keys = constants.history_keys[1:]
-
     size = len(dataloader.dataset)
     num_batches = len(dataloader)
     report_time = num_batches // 10 if num_batches >=10 else 3
@@ -47,8 +45,8 @@ def train_loop(dataloader, model, model_copy, loss_func, optimizer, scheduler = 
             
             loss_history.append(loss.item())
             
-            # Enforce a fixed order matching constants.history_keys (excluding total_loss)
-            info_history.append([info[k] for k in ordered_keys])
+            # Enforce a fixed order matching constants.losses_keys
+            info_history.append([info[k] for k in constants.losses_keys])
             
             batch_time /= 50
             current = batch_idx * dataloader.batch_size + batch_len
@@ -64,4 +62,4 @@ def train_loop(dataloader, model, model_copy, loss_func, optimizer, scheduler = 
     avg_info = torch.mean(torch.tensor(info_history, dtype=torch.float32), dim=0).tolist()
     avg_info = [avg_loss] + avg_info
 
-    return dict(zip(constants.history_keys, avg_info))
+    return dict(zip(constants.train_history_keys, avg_info))
