@@ -1,5 +1,6 @@
 import torch
 import wandb
+import shutil
 
 import argparse
 
@@ -111,10 +112,24 @@ if args.train:
     epochs_loop(epochs, train_loader, eval_loader, model, model_copy, train_loss, test_loss, optimizer, scheduler, is_batch_scheduler, **loss_config["params"])
     print("Training completed.")
     print("-"*80)
+    print("\n")
 
-    # maybe should save in a folder
-    torch.save(model.state_dict(), 'model_weights.pth')
-    print("Weights saved successfully.")
+    print("logging artifact...")
+    torch.save(model.state_dict(), "tmp_artifact_files/weights.pt")
+    shutil.copy(config_path, "tmp_artifact_files/config.yaml")
+
+    artifact = wandb.Artifact(
+                name=f"{wandb.run.name}_config & weights",
+                type="config & weights",
+                description="Config, and final weights"
+                )
+    
+    artifact.add_file("tmp_artifact_files/weights.pt")
+    artifact.add_file("tmp_artifact_files/config.yaml")
+
+    wandb.run.log_artifact(artifact)
+
+    print("Artifact logged successfully.")
     print("-"*80)
     print("\n")
     

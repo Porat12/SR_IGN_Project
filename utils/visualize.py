@@ -4,10 +4,7 @@ from utils.metrics import pnsr, ssim
 # convert from [C,H,W] to [H,W,C] for matplotlib
 def show(tensor, title):
     img = tensor.permute(1, 2, 0).cpu().numpy()
-    
-    # assuming the images are normalized to [0, 1]
-    img = img.clip(0, 1) 
-    
+        
     plt.imshow(img)
     plt.axis("off")
     plt.title(title, fontsize=10)
