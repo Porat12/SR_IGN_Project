@@ -1,4 +1,5 @@
 model:
+  name: StrideConv
   encoder:
     - type: !BlockType DOWN_CONV_RELU
       params:

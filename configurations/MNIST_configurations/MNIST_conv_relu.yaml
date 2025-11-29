@@ -1,4 +1,5 @@
 model:
+  name: StrideConv
   encoder:
     - type: !BlockType DOWN_CONV_RELU
       params:
@@ -104,6 +105,6 @@ loss :
 
 training:
   batch_size: 512
-  epochs: 30
+  epochs: 5
 
 

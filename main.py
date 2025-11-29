@@ -29,27 +29,41 @@ args = parser.parse_args()
 
 config_path = f"configurations/{args.relative_path_to_config}"
 
+print("\n")
+print("-"*80)
 register_yaml_constructors()
 print("-"*80)
 
 config = read_yaml_config(config_path)
+run_name = f"{ config["model"]["name"] }_{config["data"]["name"]}"
 print("-"*80)
-
+print("\n")
 
 print("-"*80)
 if args.train:
     print("Starting SR-IGN training script...")
 print(f"Using {constants.device} device.")
 print("-"*80)
+print("\n")
 
 
+
+print("-"*80)
 wandb.login(key=constants.wandb_key) # for HPC
 
 wandb.init(
 project = "Super Resolution Using an Idempotent Neural Network",
+name = run_name,
 entity = "porat-hai-technion-israel-institute-of-technology",
 config = config
 )
+
+print("-"*80)
+print("\n")
+
+
+
+print("-"*80)
 
 training_config = config["training"]
 batch_size = training_config["batch_size"]
@@ -64,10 +78,10 @@ if args.train:
     print("Model architecture:\n")
     print(model)
     print("-"*80)
-    print("-"*80)
+    print("\n")
 
 
-
+print("-"*80)
 print("Builders:")
 
 data_config = config["data"]
@@ -98,17 +112,21 @@ if args.train:
     print("Training completed.")
     print("-"*80)
 
-    test_loop(test_loader, model, test_loss, is_test=True, **loss_config["params"])
-    print("Test evaluation completed.")
-    print("-"*80)
-
-
     # maybe should save in a folder
     torch.save(model.state_dict(), 'model_weights.pth')
     print("Weights saved successfully.")
     print("-"*80)
+    print("\n")
+    
+    print("-"*80)
+    print("Test evaluation:")
+    test_loop(test_loader, model, test_loss, is_test=True, **loss_config["params"])
+    print("Test evaluation completed.")
+    print("-"*80)
+    print("\n")
 
-
+print("-"*80)
+print("Generating visual results...")
 model.load_state_dict(torch.load('./model_weights.pth', weights_only=True))
 model = model.to(constants.device)
 model.eval()
@@ -134,6 +152,11 @@ for i in range(5):
 
     plt.close(fig)
 
-print("Results saved successfully.")
+print("Visual Results saved successfully.")
+print("-"*80)
+print("\n")
 
+print("-"*80)
 wandb.finish()
+print("-"*80)
+print("\n")
