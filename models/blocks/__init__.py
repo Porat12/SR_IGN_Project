@@ -1,9 +1,9 @@
-from .conv_relu_blocks import DownConvReluBlock, UpConvTransposeReluBlock
-from .conv_relu_maxpool_blocks import DownConvReluMaxpoolBlock, UpConvReluMaxpoolBlock
+from .stride_conv_blocks import DownStrideConvBlock, UpStrideConvTransposeBlock
+from .conv_maxpool_blocks import DownConvMaxpoolBlock, UpConvMaxpoolBlock
 
 __all__ = [
-    'DownConvReluBlock',
-    'UpConvTransposeReluBlock',
-    'DownConvReluMaxpoolBlock',
-    'UpConvReluMaxpoolBlock'
+    'DownStrideConvBlock',
+    'UpStrideConvTransposeBlock',
+    'DownConvMaxpoolBlock',
+    'UpConvMaxpoolBlock'
 ]

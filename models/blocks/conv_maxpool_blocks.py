@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-class DownConvReluMaxpoolBlock(nn.Module):
+class DownConvMaxpoolBlock(nn.Module):
     
     def __init__(self, activation, in_channels, out_channels, conv_kernel_size, conv_padding, pool_kernel_size, pool_stride):
         super().__init__()
@@ -17,7 +17,7 @@ class DownConvReluMaxpoolBlock(nn.Module):
         x = self.block(x)
         return x
 
-class UpConvReluMaxpoolBlock(nn.Module):
+class UpConvMaxpoolBlock(nn.Module):
     
     def __init__(self, activation, in_channels, out_channels, conv_kernel_size, conv_padding, scale_factor):
         super().__init__()

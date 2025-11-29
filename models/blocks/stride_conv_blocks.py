@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-class DownConvReluBlock(nn.Module):
+class DownStrideConvBlock(nn.Module):
     def __init__(self, activation, in_channels, out_channels, kernel_size, padding, stride):
         super().__init__()
         ActivationClass = getattr(nn, activation)
@@ -14,7 +14,7 @@ class DownConvReluBlock(nn.Module):
         x = self.block(x)
         return x
 
-class UpConvTransposeReluBlock(nn.Module):
+class UpStrideConvTransposeBlock(nn.Module):
     def __init__(self, activation, in_channels, out_channels, kernel_size, padding, stride):
         super().__init__()
         ActivationClass = getattr(nn, activation)

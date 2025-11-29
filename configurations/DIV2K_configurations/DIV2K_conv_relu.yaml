@@ -1,7 +1,7 @@
 model:
   name: StrideConv
   encoder:
-    - type: !BlockType DOWN_CONV_RELU
+    - type: !BlockType DOWN_STRIDE_CONV
       params:
         activation: ReLU
         in_channels : 3
@@ -10,7 +10,7 @@ model:
         padding : 1
         stride : 2
 
-    - type: !BlockType DOWN_CONV_RELU
+    - type: !BlockType DOWN_STRIDE_CONV
       params:
         activation: ReLU
         in_channels : 32
@@ -19,7 +19,7 @@ model:
         padding : 1
         stride : 2
     
-    - type: !BlockType DOWN_CONV_RELU
+    - type: !BlockType DOWN_STRIDE_CONV
       params:
         activation: ReLU
         in_channels : 128
@@ -28,7 +28,7 @@ model:
         padding : 1
         stride : 2
     
-    - type: !BlockType DOWN_CONV_RELU
+    - type: !BlockType DOWN_STRIDE_CONV
       params:
         activation: ReLU
         in_channels : 256
@@ -38,7 +38,7 @@ model:
         stride : 2
 
   decoder:
-    - type: !BlockType UP_CONV_RELU
+    - type: !BlockType UP_STRIDE_CONV
       params:
         activation: ReLU
         in_channels : 512
@@ -47,7 +47,7 @@ model:
         padding : 1
         stride : 2
       
-    - type: !BlockType UP_CONV_RELU
+    - type: !BlockType UP_STRIDE_CONV
       params:
         activation: ReLU
         in_channels : 256
@@ -56,7 +56,7 @@ model:
         padding : 1
         stride : 2
     
-    - type: !BlockType UP_CONV_RELU
+    - type: !BlockType UP_STRIDE_CONV
       params:
         activation: ReLU
         in_channels : 128
@@ -65,7 +65,7 @@ model:
         padding : 1
         stride : 2
     
-    - type: !BlockType UP_CONV_RELU
+    - type: !BlockType UP_STRIDE_CONV
       params:
         activation : Tanh
         in_channels : 32

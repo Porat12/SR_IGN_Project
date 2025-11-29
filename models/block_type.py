@@ -4,8 +4,8 @@ from .blocks import *
 
 
 class BlockType(Enum):
-    DOWN_CONV_RELU = DownConvReluBlock
-    UP_CONV_RELU = UpConvTransposeReluBlock
+    DOWN_STRIDE_CONV = DownStrideConvBlock
+    UP_STRIDE_CONV = UpStrideConvTransposeBlock
 
-    DOWN_CONV_RELU_MAXPOOL = DownConvReluMaxpoolBlock
-    UP_CONV_RELU_MAXPOOL = UpConvReluMaxpoolBlock
+    DOWN_CONV_MAXPOOL = DownConvMaxpoolBlock
+    UP_CONV_MAXPOOL = UpConvMaxpoolBlock
