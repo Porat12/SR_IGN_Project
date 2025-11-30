@@ -67,7 +67,7 @@ model:
     
     - type: !BlockType UP_STRIDE_CONV
       params:
-        activation : Tanh
+        activation : Sigmoid
         in_channels : 32
         out_channels : 3
         kernel_size : 4

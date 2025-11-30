@@ -16,6 +16,7 @@ def main(args):
     if args.train and args.eval:
         config_path = f"configurations/{args.relative_path_to_config}"
         artifact_name = main_training(config_path)
+        artifact_name += ":latest"
         main_evaluation(artifact_name)
 
     elif args.train:

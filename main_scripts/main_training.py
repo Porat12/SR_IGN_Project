@@ -102,10 +102,11 @@ def main_training(config_path):
     torch.save(model.state_dict(), "tmp_artifact_files/weights.pt")
     shutil.copy(config_path, "tmp_artifact_files/config.yaml")
 
+    artifact_name = f"{wandb.run.name}.config_weights"
     artifact = wandb.Artifact(
-                name=f"{wandb.run.name}.config_weights",
-                type="config_weights",
-                description="Config, and final weights"
+                name = artifact_name,
+                type = "config_weights",
+                description = "Config, and final weights"
                 )
     
     artifact.add_file("tmp_artifact_files/weights.pt")
@@ -128,3 +129,4 @@ def main_training(config_path):
     wandb.finish()
     print("-"*80)
     print("\n")
+    return artifact_name
