@@ -89,7 +89,7 @@ optimizer:
 scheduler:
   name: CosineAnnealingLR
   params:
-    T_max: 100
+    T_max: 200
     eta_min: 0.000001
   is_batch_scheduler: False
 
@@ -105,6 +105,6 @@ loss :
 
 training:
   batch_size: 512
-  epochs: 5
+  epochs: 2
 
 
