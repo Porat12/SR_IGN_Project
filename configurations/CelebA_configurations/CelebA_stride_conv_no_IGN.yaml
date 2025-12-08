@@ -94,14 +94,14 @@ scheduler:
   is_batch_scheduler: False
 
 loss :
-  train_loss_name: SR_IGN_loss_for_train
-  test_loss_name: SR_IGN_loss_for_test
+  train_loss_name: SR_loss_for_train
+  test_loss_name: SR_loss_for_test
   params:
-    lam_rec: 15
-    lam_idem: 10
-    lam_tight: 5
+    lam_rec: 0
+    lam_idem: 0
+    lam_tight: 0
     lam_SR: 15
-    a: 3
+    a: None
 
 training:
   batch_size: 512

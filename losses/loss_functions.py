@@ -66,3 +66,38 @@ def SR_IGN_loss_for_test(f, z, x, **loss_params):
             "SR_loss": loss_SR.item()}
     
     return loss, info
+
+@register_loss("SR_loss_for_train")
+def SR_loss_for_train(f, f_copy, z, x, **loss_params):
+
+
+    fz = f(z)
+
+    loss_SR = F.mse_loss(fz, x)
+
+    loss = loss_SR
+
+    info = {"rec_loss": 0.0,
+            "idem_loss": 0.0,
+            "tight_loss": 0.0,
+            "SR_loss": loss_SR.item()}
+    
+    return loss, info
+
+@register_loss("SR_loss_for_test")
+@torch.no_grad()
+def SR_loss_for_test(f, z, x, **loss_params):
+
+    fz = f(z)
+
+    loss_SR = F.mse_loss(fz, x)
+
+
+    loss = loss_SR
+
+    info = {"rec_loss": 0.0,
+            "idem_loss": 0.0,
+            "tight_loss": 0.0,
+            "SR_loss": loss_SR.item()}
+    
+    return loss, info
