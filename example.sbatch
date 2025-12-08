@@ -10,14 +10,14 @@
 #SBATCH --nodes=1                     # Confines the job to a single node for efficient GPU communication.
 #SBATCH --mem=6G
 #SBATCH --ntasks=1                    # Runs the entire job as a single task.
-#SBATCH --time=01:00:00
+#SBATCH --time=10:00:00
 # --- Mail notification ---
 #SBATCH --mail-type=ALL               # Valid notification types: NONE, BEGIN, END, FAIL, REQUEUE, ALL, INVALID_DEPEND, STAGE_OUT, TIME_LIMIT, TIME_LIMIT_90, TIME_LIMIT_80, TIME_LIMIT_50 and ARRAY_TASKS
 #SBATCH --mail-user=porat.hai@campus.technion.ac.il
 
 # --- Resource Allocation ---
-#SBATCH --partition=l40s-shared       # Submits the job to the dedicated L40S GPU  partition or the “-l40s-shared” if you do not mind being Preempted on nodes which are not public.
-#SBATCH --qos=2h_2g                  # Assigns the job to the public '24h_4g' Quality of Service tier for running jobs on public nodes partition “l40s-public”.
+#SBATCH --partition=l40s-public       # Submits the job to the dedicated L40S GPU  partition or the “-l40s-shared” if you do not mind being Preempted on nodes which are not public.
+#SBATCH --qos=12h_4g                  # Assigns the job to the public '24h_4g' Quality of Service tier for running jobs on public nodes partition “l40s-public”.
 #SBATCH --gres=gpu:nvidia_l40s:1      
 #SBATCH --cpus-per-gpu=8             # Allocates CPU cores per requested GPU, ensuring no I/O bottleneck.
 
