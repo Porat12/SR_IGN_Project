@@ -22,7 +22,7 @@ def main_training(config_path):
     print("-"*80)
 
     config = read_yaml_config(config_path)
-    run_name = f"{ config["model"]["name"] }_{config["data"]["name"]}"
+    run_name = f'{ config["model"]["name"] }_{config["data"]["name"]}'
     print("-"*80)
     print("\n")
 
