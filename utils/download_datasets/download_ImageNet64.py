@@ -1,75 +1,118 @@
-from torchvision.datasets.utils import download_and_extract_archive
+import tensorflow_datasets as tfds
 import os
-import numpy as np
 from PIL import Image
-from tqdm import tqdm
+from torch.utils.data import Dataset, DataLoader
+from torchvision import transforms
+import random
+import shutil
 
 # --------------------------
 # Settings
 # --------------------------
-save_root = "/rg/shocher_prj/porat.hai/SR_IGN_Project/data/ImageNet64"
+save_root = "/rg/shocher_prj/porat.hai/SR_IGN_Project/data/ImageNet64_tfds"
 os.makedirs(save_root, exist_ok=True)
 
-# --------------------------
-# Function to convert .bin to images (no classes)
-# --------------------------
-def convert_bin_to_images_noclass(bin_files, output_root):
-    os.makedirs(output_root, exist_ok=True)
-    counter = 0
-    for bin_file in bin_files:
-        print(f"Processing {bin_file}...")
-        data = np.fromfile(bin_file, dtype=np.uint8)
-        n_images = len(data) // (1 + 3*64*64)
-        data = data.reshape(n_images, 1 + 3*64*64)
-        images = data[:, 1:]  # ignore label
-        
-        for i in tqdm(range(n_images)):
-            img = images[i].reshape(3, 64, 64).transpose(1,2,0)  # HWC
-            img_pil = Image.fromarray(img)
-            img_pil.save(os.path.join(output_root, f"{counter}.png"))
-            counter += 1
-        
-        # Remove bin file after conversion
-        os.remove(bin_file)
+# Desired split ratio for test (from validation set)
+test_ratio = 0.5  # 50% of validation becomes test
 
 # --------------------------
-# Download and extract
+# Helper functions
 # --------------------------
-splits = {
-    "train": "train_64x64.tar.gz",
-    "val": "val_64x64.tar.gz",
-    "test": "test_64x64.tar.gz"
-}
+def save_images(ds, out_dir):
+    os.makedirs(out_dir, exist_ok=True)
+    for i, example in enumerate(tfds.as_numpy(ds)):
+        img = example["image"]  # uint8, shape (64,64,3)
+        Image.fromarray(img).save(os.path.join(out_dir, f"{i}.png"))
+        if i % 10000 == 0:
+            print(f"Saved {i} images to {out_dir}")
+    print(f"Finished saving images to {out_dir}")
 
-urls = {
-    "train": "https://patrykchrabaszcz.github.io/Imagenet64/train_64x64.tar.gz",
-    "val": "https://patrykchrabaszcz.github.io/Imagenet64/val_64x64.tar.gz",
-    "test": "https://patrykchrabaszcz.github.io/Imagenet64/test_64x64.tar.gz"
-}
-
-for split, filename in splits.items():
-    print(f"________________ Downloading ImageNet64 {split.capitalize()} Dataset __________________")
-    download_and_extract_archive(
-        url=urls[split],
-        download_root=save_root,
-        extract_root=os.path.join(save_root, split),
-        filename=filename
-    )
+def count_images(folder):
+    return len([f for f in os.listdir(folder) if f.endswith(".png")])
 
 # --------------------------
-# Convert binaries to images (no classes)
+# Download TFDS dataset
 # --------------------------
-for split in ["train", "val", "test"]:
-    bin_folder = os.path.join(save_root, split)
-    output_folder = os.path.join(save_root, f"{split}_images")
-    bin_files = [os.path.join(bin_folder, f) for f in os.listdir(bin_folder) if f.endswith(".bin")]
-    
-    print(f"________________ Converting {split.capitalize()} Split to PNG (no classes) __________________")
-    convert_bin_to_images_noclass(bin_files, output_folder)
-    
-    # Remove the .tar.gz archive after extraction
-    tar_path = os.path.join(save_root, splits[split])
-    if os.path.exists(tar_path):
-        os.remove(tar_path)
+print("Downloading TFDS downsampled_imagenet/64x64 ...")
+train_ds = tfds.load("downsampled_imagenet/64x64", split="train", as_supervised=False)
+val_ds   = tfds.load("downsampled_imagenet/64x64", split="validation", as_supervised=False)
 
-print("________________ Done __________________")
+# --------------------------
+# Save train images
+# --------------------------
+train_dir = os.path.join(save_root, "train_images")
+print("Saving train images ...")
+save_images(train_ds, train_dir)
+
+# --------------------------
+# Split validation into validation + test
+# --------------------------
+val_list = list(tfds.as_numpy(val_ds))
+random.shuffle(val_list)
+split_idx = int(len(val_list) * test_ratio)
+
+test_list = val_list[:split_idx]
+val_list = val_list[split_idx:]
+
+val_dir = os.path.join(save_root, "validation_images")
+test_dir = os.path.join(save_root, "test_images")
+
+print("Saving validation images ...")
+os.makedirs(val_dir, exist_ok=True)
+for i, example in enumerate(val_list):
+    Image.fromarray(example["image"]).save(os.path.join(val_dir, f"{i}.png"))
+
+print("Saving test images ...")
+os.makedirs(test_dir, exist_ok=True)
+for i, example in enumerate(test_list):
+    Image.fromarray(example["image"]).save(os.path.join(test_dir, f"{i}.png"))
+
+# --------------------------
+# Sanity checks
+# --------------------------
+train_count = count_images(train_dir)
+val_count   = count_images(val_dir)
+test_count  = count_images(test_dir)
+
+print(f"Train images: {train_count}")
+print(f"Validation images: {val_count}")
+print(f"Test images: {test_count}")
+
+assert train_count > 1_200_000, f"Train set seems incomplete ({train_count} images)"
+assert val_count >= 25_000, f"Validation set seems small ({val_count} images)"
+assert test_count >= 25_000, f"Test set seems small ({test_count} images)"
+
+print("ImageNet64 dataset download and preparation complete.")
+
+# # --------------------------
+# # PyTorch Dataset
+# # --------------------------
+# class ImageOnlyDataset(Dataset):
+#     def __init__(self, root_dir, transform=None):
+#         self.files = [os.path.join(root_dir, f) for f in os.listdir(root_dir) if f.endswith(".png")]
+#         self.transform = transform
+
+#     def __len__(self):
+#         return len(self.files)
+
+#     def __getitem__(self, idx):
+#         img = Image.open(self.files[idx]).convert("RGB")
+#         if self.transform:
+#             img = self.transform(img)
+#         return img
+
+# # --------------------------
+# # Example usage
+# # --------------------------
+# transform = transforms.ToTensor()
+# train_dataset = ImageOnlyDataset(train_dir, transform=transform)
+# val_dataset   = ImageOnlyDataset(val_dir, transform=transform)
+# test_dataset  = ImageOnlyDataset(test_dir, transform=transform)
+
+# train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+# val_loader   = DataLoader(val_dataset, batch_size=64, shuffle=False)
+# test_loader  = DataLoader(test_dataset, batch_size=64, shuffle=False)
+
+# # Test: load a batch
+# images = next(iter(train_loader))
+# print(images.shape)  # [64, 3, 64, 64]
