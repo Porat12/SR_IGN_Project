@@ -4,12 +4,13 @@
 #
 
 # --- Job Configuration ---
-#SBATCH --job-name=download_ImageNet64    # Descriptive name for tracking the job.
+#SBATCH --job-name=extract    # Descriptive name for tracking the job.
 #SBATCH --output=slurm-%j.out         # Redirects standard output to a file named with the job ID.
 #SBATCH --error=slurm-%j.err          # Redirects standard error to a file.
 #SBATCH --nodes=1                     # Confines the job to a single node for efficient GPU communication.
 #SBATCH --mem=16G
 #SBATCH --ntasks=1                    # Runs the entire job as a single task.
+#SBATCH --cpus-per-task=4
 #SBATCH --time=01:00:00
 # --- Mail notification ---
 #SBATCH --mail-type=ALL               # Valid notification types: NONE, BEGIN, END, FAIL, REQUEUE, ALL, INVALID_DEPEND, STAGE_OUT, TIME_LIMIT, TIME_LIMIT_90, TIME_LIMIT_80, TIME_LIMIT_50 and ARRAY_TASKS
@@ -17,9 +18,8 @@
 
 # --- Resource Allocation ---
 #SBATCH --partition=l40s-shared       # Submits the job to the dedicated L40S GPU  partition or the “-l40s-shared” if you do not mind being Preempted on nodes which are not public.
-#SBATCH --qos=2h_2g                  # Assigns the job to the public '24h_4g' Quality of Service tier for running jobs on public nodes partition “l40s-public”.
-#SBATCH --gres=gpu:nvidia_l40s:1      
-#SBATCH --cpus-per-gpu=8             # Allocates CPU cores per requested GPU, ensuring no I/O bottleneck.
+#SBATCH --qos=4h_0g                  # Assigns the job to the public '24h_4g' Quality of Service tier for running jobs on public nodes partition “l40s-public”.
+
 
 # --- Container & Mounts ---
 #SBATCH --container=/usr/local/apptainer/images/pytorch/latest/torch2.7-tf2.20-cu128.sif            # Specifies the Apptainer image to use.
@@ -31,6 +31,9 @@
 # OR:
 # export APPTAINER_BIND="$PRJ_WORKSPACE,/home/maytalc/some/other/file.txt:/mount/inside/the/container/file.txt"
 # sbatch <this_batch_script>
+
+export PRJ_WORKSPACE=/rg/shocher_prj/porat.hai/SR_IGN_Project
+export APPTAINER_BIND="$PRJ_WORKSPACE"
 
 # --- Execution Block ---
 set -e # Exit immediately if a command exits with a non-zero status.
@@ -66,5 +69,5 @@ echo "Starting python script..."
 # Run training script as a single command (all args on one line for clarity)
 
 # python main.py --train --relative_path_to_config CelebA_configurations/CelebA_stride_conv_no_IGN.yaml --eval
-tar -xvzf data/valid_64x64.tar.gz -C data/ImageNet64/
+tar -xvzf data/train_64x64.tar.gz -C data/ImageNet64/train_64x64/
 echo "Mission Complete."
