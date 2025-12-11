@@ -1,0 +1,109 @@
+model:
+  name: StrideConv
+  encoder:
+    - type: !BlockType DOWN_STRIDE_CONV
+      params:
+        activation : ReLU
+        in_channels : 3
+        out_channels : 32
+        kernel_size : 4
+        padding : 1
+        stride : 2
+
+    - type: !BlockType DOWN_STRIDE_CONV
+      params:
+        activation : ReLU
+        in_channels : 32
+        out_channels : 128
+        kernel_size : 4
+        padding : 1
+        stride : 2
+    
+    - type: !BlockType DOWN_STRIDE_CONV
+      params:
+        activation : ReLU
+        in_channels : 128
+        out_channels : 256
+        kernel_size : 4
+        padding : 1
+        stride : 2
+    
+    - type: !BlockType DOWN_STRIDE_CONV
+      params:
+        activation : ReLU
+        in_channels : 256
+        out_channels : 512
+        kernel_size : 4
+        padding : 1
+        stride : 2
+
+  decoder:
+    - type: !BlockType UP_STRIDE_CONV
+      params:
+        activation : ReLU
+        in_channels : 512
+        out_channels : 256
+        kernel_size : 4
+        padding : 1
+        stride : 2
+      
+    - type: !BlockType UP_STRIDE_CONV
+      params:
+        activation : ReLU
+        in_channels : 256
+        out_channels : 128
+        kernel_size : 4
+        padding : 1
+        stride : 2
+    
+    - type: !BlockType UP_STRIDE_CONV
+      params:
+        activation : ReLU
+        in_channels : 128
+        out_channels : 32
+        kernel_size : 4
+        padding : 1
+        stride : 2
+    
+    - type: !BlockType UP_STRIDE_CONV
+      params:
+        activation : Sigmoid
+        in_channels : 32
+        out_channels : 3
+        kernel_size : 4
+        padding : 1
+        stride : 2
+
+data:
+  name: ImageNet64
+  scale_factor: 2
+
+optimizer:
+  name: Adam
+  params:
+    lr: 0.001
+    betas: [0.9, 0.999] 
+    weight_decay: 0.0001
+
+scheduler:
+  name: CosineAnnealingLR
+  params:
+    T_max: 200
+    eta_min: 0.000001
+  is_batch_scheduler: False
+
+loss :
+  train_loss_name: SR_IGN_loss_for_train
+  test_loss_name: SR_IGN_loss_for_test
+  params:
+    lam_rec: 15
+    lam_idem: 10
+    lam_tight: 5
+    lam_SR: 15
+    a: 3
+
+training:
+  batch_size: 512
+  epochs: 200
+
+

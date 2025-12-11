@@ -27,5 +27,6 @@ check_celebA.py
 check_DIV2K.py
 check_MNIST.py
 check_metrics.py
+check_ImageNet64.py
 tmp_artifact_files/
 artifacts/

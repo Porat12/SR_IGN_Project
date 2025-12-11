@@ -3,6 +3,7 @@ from torch.utils.data import DataLoader
 from .MNISTDataset import MNISTDataset
 from .CelebADataset import CelebADataset
 from .DIV2KDataset import DIV2KDataset
+from .ImageNet64Dataset import ImageNet64Dataset
 
 def build_dataloaders(batch_size, **data_config):
 
@@ -91,8 +92,38 @@ def build_dataloaders(batch_size, **data_config):
         )
 
         test_data = DIV2KDataset(
-            root_dir="data/DIV2K/DIV2K_valid_HR/DIV2K_valid_HR",
+            root_dir = "data/DIV2K/DIV2K_valid_HR/DIV2K_valid_HR",
             crop_size = data_config["crop_size"],
+            scale_factor = data_config["scale_factor"]
+            
+        )
+
+        train_loader = DataLoader(
+                        train_data,
+                        batch_size = batch_size,
+                        shuffle=True
+                        )
+
+        test_loader = DataLoader(
+                        test_data,
+                        batch_size = batch_size,
+                        shuffle=True
+                        )
+        
+        return train_loader, test_loader, None
+    
+    elif data_config["name"] == 'ImageNet64':
+
+        train_data = ImageNet64Dataset(
+            root_dir = "data/ImageNet64/train_64x64",
+            split = "train",
+            scale_factor = data_config["scale_factor"]
+            
+        )
+
+        test_data = DIV2KDataset(
+            root_dir = "data/ImageNet64/valid_64x64",
+            split = "valid",
             scale_factor = data_config["scale_factor"]
             
         )

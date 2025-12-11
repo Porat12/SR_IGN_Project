@@ -2,12 +2,36 @@ import matplotlib.pyplot as plt
 from utils.metrics import pnsr, ssim
 
 # convert from [C,H,W] to [H,W,C] for matplotlib
-def show(tensor, title):
+def show(tensor, title = ""):
     img = tensor.permute(1, 2, 0).cpu().numpy()
         
     plt.imshow(img)
     plt.axis("off")
     plt.title(title, fontsize=10)
+
+def show_results(LR_images, SR_images, HR_images, save_path):
+
+    n = len(LR_images)
+
+    fig = plt.figure(figsize=(3 * n, 9)) 
+
+    for i in range(n):
+        # --- LR Images (Row 1) ---
+        plt.subplot(3, n, i + 1)
+        show(LR_images[i])
+
+        # --- SR Images (Row 2) ---
+        plt.subplot(3, n, n + i + 1)
+        show(SR_images[i])
+
+        # --- HR Images (Row 3) ---
+        plt.subplot(3, n, 2 * n + i + 1)
+        show(HR_images[i])
+
+    plt.tight_layout()
+    plt.savefig(save_path)
+    print(f"Saved visualization to {save_path}")
+    
 
 def create_results_fig(LR_images, SR_images, HR_images):
     n = len(LR_images)
