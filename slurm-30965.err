@@ -11,3 +11,11 @@ wandb: Syncing run CrossEval_StrideConv_CelebA_ImageNet64
 wandb: ⭐️ View project at https://wandb.ai/porat-hai-technion-israel-institute-of-technology/Super%20Resolution%20Using%20an%20Idempotent%20Neural%20Network
 wandb: 🚀 View run at https://wandb.ai/porat-hai-technion-israel-institute-of-technology/Super%20Resolution%20Using%20an%20Idempotent%20Neural%20Network/runs/h5p06ctc
 wandb: \ 1 of 2 files downloaded...wandb:   2 of 2 files downloaded.  
+wandb: updating run metadata
+wandb: uploading output.log; uploading wandb-summary.json; uploading media/images/Test/Visuale Results_4_24629a55ff03e813c737.png
+wandb: uploading media/images/Test/Visuale Results_4_24629a55ff03e813c737.png
+wandb: uploading history steps 2-4, summary, console lines 97-101
+wandb: 🚀 View run CrossEval_StrideConv_CelebA_ImageNet64 at: https://wandb.ai/porat-hai-technion-israel-institute-of-technology/Super%20Resolution%20Using%20an%20Idempotent%20Neural%20Network/runs/h5p06ctc
+wandb: ⭐️ View project at: https://wandb.ai/porat-hai-technion-israel-institute-of-technology/Super%20Resolution%20Using%20an%20Idempotent%20Neural%20Network
+wandb: Synced 5 W&B file(s), 5 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20251212_022743-h5p06ctc/logs

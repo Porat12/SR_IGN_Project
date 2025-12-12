@@ -71,3 +71,123 @@ traning_run.sh
 utils
 wandb
 Starting python script...
+--------------------------------------------------------------------------------
+Starting SR-IGN evaluation script...
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Registers all necessary custom constructors for PyYAML:
+----  Custom YAML constructor for !BlockType registered.
+All constructors registered successfully.
+--------------------------------------------------------------------------------
+YAML configuration file read successfully.
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+
+YAML configuration file read successfully.
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Model architecture:
+
+Autoencoder(
+  (encoder): Encoder(
+    (encoder): ModelBuilder(
+      (model): Sequential(
+        (0): DownStrideConvBlock(
+          (block): Sequential(
+            (0): Conv2d(3, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (1): DownStrideConvBlock(
+          (block): Sequential(
+            (0): Conv2d(32, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (2): DownStrideConvBlock(
+          (block): Sequential(
+            (0): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (3): DownStrideConvBlock(
+          (block): Sequential(
+            (0): Conv2d(256, 512, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+      )
+    )
+  )
+  (decoder): Decoder(
+    (decoder): ModelBuilder(
+      (model): Sequential(
+        (0): UpStrideConvTransposeBlock(
+          (block): Sequential(
+            (0): ConvTranspose2d(512, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (1): UpStrideConvTransposeBlock(
+          (block): Sequential(
+            (0): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (2): UpStrideConvTransposeBlock(
+          (block): Sequential(
+            (0): ConvTranspose2d(128, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (3): UpStrideConvTransposeBlock(
+          (block): Sequential(
+            (0): ConvTranspose2d(32, 3, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): Sigmoid()
+          )
+        )
+      )
+    )
+  )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Builders:
+Loading cached file list from data/ImageNet64/imagenet_train_cache.pt...
+Loading cached file list from data/ImageNet64/imagenet_valid_cache.pt...
+----  dataloaders built successfully.
+
+----  loss function built successfully. Test loss: SR_IGN_loss_for_test
+--------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------
+Test evaluation:
+Avg Test loss: 0.151423| Avg PSNR: 23.855141 dB | Avg SSIM: 0.768389
+
+Test evaluation completed.
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Generating visual results...
+Visual Results saved successfully.
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+
+Mission Complete.
