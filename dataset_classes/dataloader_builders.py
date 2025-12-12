@@ -121,11 +121,10 @@ def build_dataloaders(batch_size, **data_config):
             
         )
 
-        test_data = DIV2KDataset(
+        test_data = ImageNet64Dataset(
             root_dir = "data/ImageNet64/valid_64x64",
             split = "valid",
             scale_factor = data_config["scale_factor"]
-            
         )
 
         train_loader = DataLoader(

@@ -4,13 +4,13 @@
 #
 
 # --- Job Configuration ---
-#SBATCH --job-name=simulation    # Descriptive name for tracking the job.
+#SBATCH --job-name=cross_eval    # Descriptive name for tracking the job.
 #SBATCH --output=slurm-%j.out         # Redirects standard output to a file named with the job ID.
 #SBATCH --error=slurm-%j.err          # Redirects standard error to a file.
 #SBATCH --nodes=1                     # Confines the job to a single node for efficient GPU communication.
-#SBATCH --mem=6G
+#SBATCH --mem=20G
 #SBATCH --ntasks=1                    # Runs the entire job as a single task.
-#SBATCH --time=01:00:00
+#SBATCH --time=00:30:00
 # --- Mail notification ---
 #SBATCH --mail-type=ALL               # Valid notification types: NONE, BEGIN, END, FAIL, REQUEUE, ALL, INVALID_DEPEND, STAGE_OUT, TIME_LIMIT, TIME_LIMIT_90, TIME_LIMIT_80, TIME_LIMIT_50 and ARRAY_TASKS
 #SBATCH --mail-user=porat.hai@campus.technion.ac.il
@@ -68,6 +68,6 @@ echo "Listing files: $(ls)"
 echo "Starting python script..."
 # Run training script as a single command (all args on one line for clarity)
 
-python main.py --train --relative_path_to_config CelebA_configurations/CelebA_stride_conv_no_IGN.yaml --eval
+python main.py --cross_eval --trained_artifact_name StrideConv_CelebA.config_weights:v1 --relative_path_to_data_cross_eval_config ImageNet64_configurations/ImageNet64CrossEval.yaml
 
 echo "Mission Complete."

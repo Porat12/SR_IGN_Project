@@ -15,15 +15,23 @@ from utils.visualize import create_results_fig
 from loops.evaluation import test_loop
 from losses.loss_builder import build_loss
 
-def main_evaluation(artifact_name):
+def main_cross_evaluation(trained_artifact_name, test_data_config_path):
 
     print("-"*80)
     print("Starting SR-IGN evaluation script...")
     print("-"*80)
     print("\n")
 
-    run_name = re.match(r"(.+)\.config_weights", artifact_name).group(1)
-    run_name = f"Eval_{run_name}"
+    print("-"*80)
+    register_yaml_constructors()
+    print("-"*80)
+
+    test_data_config = read_yaml_config(test_data_config_path)
+    print("-"*80)
+    print("\n")
+
+    run_name = re.match(r"(.+)\.config_weights", trained_artifact_name).group(1)
+    run_name = f"CrossEval_{run_name}_{test_data_config["data"]["name"]}"
 
     print("-"*80)
     wandb.login(key=constants.wandb_key) # For HPC, also works in local PC.
@@ -34,19 +42,14 @@ def main_evaluation(artifact_name):
                 entity = "porat-hai-technion-israel-institute-of-technology"
                 )
     
-    artifact = run.use_artifact(artifact_name)
+    artifact = run.use_artifact(trained_artifact_name)
     artifact_dir = artifact.download()  # downloads locally
     print("-"*80)
     print("\n")
 
     config_path = f"{artifact_dir}/config.yaml"
     weights_path = f"{artifact_dir}/weights.pt"
-
     
-    print("-"*80)
-    register_yaml_constructors()
-    print("-"*80)
-
     config = read_yaml_config(config_path)
     print("-"*80)
     print("\n")
@@ -69,8 +72,8 @@ def main_evaluation(artifact_name):
     print("-"*80)
     print("Builders:")
 
-    batch_size = config["training"]["batch_size"]
-    data_config = config["data"]
+    batch_size = test_data_config["batch_size"]
+    data_config = test_data_config["data"]
     _, test_loader, _ = build_dataloaders(batch_size, **data_config)
     print("----  dataloaders built successfully.\n")
 

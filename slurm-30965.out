@@ -1,0 +1,73 @@
+================================================================
+Timestamp            : Fri Dec 12 02:27:35 IST 2025
+Host                 : athena-post
+SLURM Job ID         : 30965
+Apptainer Container  : /usr/local/apptainer/images/pytorch/latest/torch2.7-tf2.20-cu128.sif
+Container Mounts     : /rg/shocher_prj/porat.hai/SR_IGN_Project
+GPU(s) Allocated     : 0
+================================================================
+
+--- Verifying GPU Accessibility Inside Container ---
+Fri Dec 12 02:27:35 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 570.124.06             Driver Version: 570.124.06     CUDA Version: 12.8     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:68:00.0 Off |                    0 |
+| N/A   37C    P8             33W /  350W |       1MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Filesystem                                                                     Size  Used Avail Use% Mounted on
+fuse-overlayfs                                                                 1.2T   40K  1.2T   1% /
+devtmpfs                                                                       4.0M     0  4.0M   0% /dev
+tmpfs                                                                          1.2T  576K  1.2T   1% /dev/shm
+/dev/md127                                                                     893G   92G  801G  11% /etc/hosts
+/dev/md0p1                                                                     7.0T  793G  6.3T  12% /scratch
+tmpfs                                                                          454G  2.9M  454G   1% /run/munge/munge.socket.2
+hpc-nfs2:/athena/rlocal/apptainer/profile.d/y-local.sh                         1.0T  137G  888G  14% /.singularity.d/env/y-local.sh
+efivarfs                                                                       128K   51K   73K  42% /sys/firmware/efi/efivars
+tmpfs                                                                          1.2T   40K  1.2T   1% /.singularity.d/libs
+hpc-nfs2:/athena/rlocal/cuda-12.8/targets/x86_64-linux/lib/libOpenCL.so.1.0.0  1.0T  137G  888G  14% /.singularity.d/libs/libOpenCL.so
+hpc-nfs2:/rg/shocher_prj/porat.hai/SR_IGN_Project                              2.0T   44G  2.0T   3% /rg/shocher_prj/porat.hai/SR_IGN_Project
+tmpfs                                                                          1.2T   12K  1.2T   1% /proc/driver/nvidia
+--- Launching Primary Command ---
+Changing directory to project folder...
+Current directory: /rg/shocher_prj/porat.hai/SR_IGN_Project
+Listing files: README.md
+SRdata
+__pycache__
+artifacts
+check_ImageNet64.py
+configurations
+constants.py
+cpu_runs.sbatch
+data
+dataset_classes
+evaluation_run.sh
+example.sbatch
+loops
+losses
+main.py
+main_scripts
+models
+optimization_builders.py
+run_simulation.sbatch
+slurm-30965.err
+slurm-30965.out
+tmp_artifact_files
+traning_run.sh
+utils
+wandb
+Starting python script...

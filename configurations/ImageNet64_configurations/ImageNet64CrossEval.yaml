@@ -1,0 +1,5 @@
+data:
+  name: ImageNet64
+  scale_factor: 2
+  
+batch_size: 2048

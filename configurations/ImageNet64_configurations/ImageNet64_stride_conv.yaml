@@ -103,7 +103,7 @@ loss :
     a: 3
 
 training:
-  batch_size: 512
-  epochs: 200
+  batch_size: 2048
+  epochs: 1
 
 
