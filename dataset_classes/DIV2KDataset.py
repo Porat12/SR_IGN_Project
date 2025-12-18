@@ -14,7 +14,7 @@ class DIV2KDataset(Dataset):
         self.cropper = transforms.RandomCrop(crop_size)
         self.to_tensor = transforms.ToTensor()
 
-        self.threshold = 0.01
+        self.threshold = 0.015
 
     def __len__(self):
         return len(self.image_paths)
@@ -23,9 +23,17 @@ class DIV2KDataset(Dataset):
         hr_img = Image.open(self.image_paths[idx]).convert("RGB")
         
         hr_crop = self.cropper(hr_img)
-        for _ in range(10):
-            if torch.std(self.to_tensor(hr_crop)) > self.threshold:
+        
+        # Try up to 10 times to find a good patch
+        for _ in range(25):
+            # Calculate deviation (proxy for variance)
+            current_std = torch.std(self.to_tensor(hr_crop))
+            
+            # Accept if: High Variance OR Lucky Keep (10% chance)
+            if current_std > self.threshold or torch.rand(1).item() < 0.05:
                 break
+            
+            # Retry
             hr_crop = self.cropper(hr_img)
 
         w, h = hr_crop.size
