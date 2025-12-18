@@ -3,6 +3,7 @@ import glob
 from PIL import Image
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
+import torch
 
 class DIV2KDataset(Dataset):
     def __init__(self, root_dir, crop_size, scale_factor):
@@ -13,6 +14,8 @@ class DIV2KDataset(Dataset):
         self.cropper = transforms.RandomCrop(crop_size)
         self.to_tensor = transforms.ToTensor()
 
+        self.threshold = 0.01
+
     def __len__(self):
         return len(self.image_paths)
 
@@ -20,7 +23,11 @@ class DIV2KDataset(Dataset):
         hr_img = Image.open(self.image_paths[idx]).convert("RGB")
         
         hr_crop = self.cropper(hr_img)
-        
+        for _ in range(10):
+            if torch.std(self.to_tensor(hr_crop)) > self.threshold:
+                break
+            hr_crop = self.cropper(hr_img)
+
         w, h = hr_crop.size
         
         lr_small = hr_crop.resize(
