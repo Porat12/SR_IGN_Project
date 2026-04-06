@@ -1,0 +1,99 @@
+================================================================
+Timestamp            : Mon Apr  6 23:22:25 IDT 2026
+Host                 : n317
+SLURM Job ID         : 69059
+Apptainer Container  : /apps/apptainer/images/pytorch/2.7/torch2.7-tf2.20-cu128.sif
+Container Mounts     : /rg/shocher_prj/porat.hai/SR_IGN_Project
+GPU(s) Allocated     : 0
+================================================================
+
+--- Verifying GPU Accessibility Inside Container ---
+Mon Apr  6 23:22:25 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.45.04              Driver Version: 595.45.04      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:04:00.0 Off |                    0 |
+| N/A   25C    P8             29W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Filesystem                                              Size  Used Avail Use% Mounted on
+fuse-overlayfs                                          1.2T   40K  1.2T   1% /
+devtmpfs                                                4.0M     0  4.0M   0% /dev
+tmpfs                                                   1.2T  8.0M  1.2T   1% /dev/shm
+hpc-nfs2:/athena/rlocal/apptainer/profile.d/y-local.sh  1.0T  227G  798G  23% /.singularity.d/env/y-local.sh
+/dev/mapper/rlm_n317-root                               150G   49G  102G  33% /etc/hosts
+/dev/md0                                                7.0T  394G  6.6T   6% /scratch
+tmpfs                                                   454G  2.8M  454G   1% /run/munge/munge.socket.2
+efivarfs                                                256K   89K  163K  36% /sys/firmware/efi/efivars
+tmpfs                                                   1.2T   40K  1.2T   1% /etc/resolv.conf
+hpc-nfs2:/rg/shocher_prj/porat.hai/SR_IGN_Project       2.0T  1.4T  666G  68% /rg/shocher_prj/porat.hai/SR_IGN_Project
+tmpfs                                                   1.2T   12K  1.2T   1% /proc/driver/nvidia
+--- Launching Primary Command ---
+Changing directory to project folder...
+Current directory: /rg/shocher_prj/porat.hai/SR_IGN_Project
+Listing files: README.md
+SRdata
+__pycache__
+artifacts
+check_ImageNet64.py
+configurations
+constants.py
+cpu_runs.sbatch
+data
+dataset_classes
+evaluation_run.sh
+loops
+losses
+main.py
+main_scripts
+models
+optimization_builders.py
+run_simulation.sbatch
+slurm-34612.err
+slurm-34612.out
+slurm-34666.err
+slurm-34666.out
+slurm-34668.err
+slurm-34668.out
+slurm-68971.err
+slurm-68971.out
+slurm-68974.err
+slurm-68974.out
+slurm-68976.err
+slurm-68976.out
+slurm-68977.err
+slurm-68977.out
+slurm-68978.err
+slurm-68978.out
+slurm-68983.err
+slurm-68983.out
+slurm-68988.err
+slurm-68988.out
+slurm-68989.err
+slurm-68989.out
+slurm-68998.err
+slurm-68998.out
+slurm-69003.err
+slurm-69003.out
+slurm-69056.err
+slurm-69056.out
+slurm-69059.err
+slurm-69059.out
+tmp_artifact_files
+traning_run.sh
+utils
+wandb
+Starting python script...

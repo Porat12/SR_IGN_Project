@@ -2,7 +2,7 @@ import torch
 import torch.nn.functional as F
 
 from .loss_registry import register_loss
-
+from .loss_classes import ELoss
 
 @register_loss("SR_IGN_loss_for_train")
 def SR_IGN_loss_for_train(f, f_copy, z, x, **loss_params):
@@ -101,3 +101,40 @@ def SR_loss_for_test(f, z, x, **loss_params):
             "SR_loss": loss_SR.item()}
     
     return loss, info
+
+@register_loss("modified_SR_IGN_loss_for_train")
+def modified_SR_IGN_loss_for_train(f, f_copy, z, x, **loss_params):
+    lam_rec, lam_idem, lam_tight  = loss_params["lam_rec"], loss_params["lam_idem"], loss_params["lam_tight"]
+    lam_SR, a = loss_params["lam_SR"], loss_params.get("a", None)
+
+
+    fx = f(x)
+    fz = f(z)
+    f_z = fz.detach()
+    ff_z = f(f_z)
+
+    loss_SR = F.mse_loss(fz, x)
+
+    loss_rec = F.mse_loss(fx, x)
+    detached_loss_rec = loss_rec.detach()
+
+    idem_critrion = ELoss(f_copy)
+    loss_idem = idem_critrion(fz)
+
+    loss_tight = -F.mse_loss(ff_z, f_z)
+    if a is not None:
+        loss_tight = F.tanh( loss_tight / (a * detached_loss_rec) ) * detached_loss_rec
+
+    loss = lam_rec * loss_rec + lam_idem * loss_idem + lam_tight * loss_tight + lam_SR * loss_SR
+
+    info = {"rec_loss": loss_rec.item(),
+            "idem_loss": loss_idem.item(),
+            "tight_loss": loss_tight.item(),
+            "SR_loss": loss_SR.item()}
+    
+    return loss, info
+
+@register_loss("modified_SR_IGN_loss_for_test")
+@torch.no_grad()
+def modified_SR_IGN_loss_for_test(f, z, x, **loss_params):
+    return SR_IGN_loss_for_test(f, z, x, **loss_params)

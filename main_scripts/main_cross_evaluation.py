@@ -51,6 +51,9 @@ def main_cross_evaluation(trained_artifact_name, test_data_config_path):
     weights_path = f"{artifact_dir}/weights.pt"
     
     config = read_yaml_config(config_path)
+    
+    combined_config = { "train_config": config, "test_config": test_data_config }
+    run.config.update(combined_config)
     print("-"*80)
     print("\n")
 

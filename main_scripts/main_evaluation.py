@@ -48,6 +48,7 @@ def main_evaluation(artifact_name):
     print("-"*80)
 
     config = read_yaml_config(config_path)
+    run.config.update(config)
     print("-"*80)
     print("\n")
 

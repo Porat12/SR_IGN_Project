@@ -1,9 +1,9 @@
 model:
-  name: StrideConv
+  name: StrideConvModifiedBackprop_1
   encoder:
     - type: !BlockType DOWN_STRIDE_CONV
       params:
-        activation: ReLU
+        activation : ReLU
         in_channels : 3
         out_channels : 32
         kernel_size : 4
@@ -12,7 +12,7 @@ model:
 
     - type: !BlockType DOWN_STRIDE_CONV
       params:
-        activation: ReLU
+        activation : ReLU
         in_channels : 32
         out_channels : 128
         kernel_size : 4
@@ -21,7 +21,7 @@ model:
     
     - type: !BlockType DOWN_STRIDE_CONV
       params:
-        activation: ReLU
+        activation : ReLU
         in_channels : 128
         out_channels : 256
         kernel_size : 4
@@ -30,7 +30,7 @@ model:
     
     - type: !BlockType DOWN_STRIDE_CONV
       params:
-        activation: ReLU
+        activation : ReLU
         in_channels : 256
         out_channels : 512
         kernel_size : 4
@@ -40,7 +40,7 @@ model:
   decoder:
     - type: !BlockType UP_STRIDE_CONV
       params:
-        activation: ReLU
+        activation : ReLU
         in_channels : 512
         out_channels : 256
         kernel_size : 4
@@ -49,7 +49,7 @@ model:
       
     - type: !BlockType UP_STRIDE_CONV
       params:
-        activation: ReLU
+        activation : ReLU
         in_channels : 256
         out_channels : 128
         kernel_size : 4
@@ -58,7 +58,7 @@ model:
     
     - type: !BlockType UP_STRIDE_CONV
       params:
-        activation: ReLU
+        activation : ReLU
         in_channels : 128
         out_channels : 32
         kernel_size : 4
@@ -75,9 +75,9 @@ model:
         stride : 2
 
 data:
-  name: DIV2K
-  crop_size: 128
-  scale_factor: 4
+  name: CelebA
+  img_size: 64
+  scale_factor: 2
 
 optimizer:
   name: Adam
@@ -89,22 +89,22 @@ optimizer:
 scheduler:
   name: CosineAnnealingLR
   params:
-    T_max: 10
+    T_max: 75
     eta_min: 0.000001
   is_batch_scheduler: False
 
 loss :
-  train_loss_name: SR_IGN_loss_for_train
-  test_loss_name: SR_IGN_loss_for_test
+  train_loss_name: modified_SR_IGN_loss_for_train
+  test_loss_name: modified_SR_IGN_loss_for_test
   params:
-    lam_rec: 15
+    lam_rec: 10
     lam_idem: 10
-    lam_tight: 5
+    lam_tight: 0
     lam_SR: 15
     a: 3
 
 training:
-  batch_size: 16
-  epochs: 1
+  batch_size: 512
+  epochs: 75
 
 
