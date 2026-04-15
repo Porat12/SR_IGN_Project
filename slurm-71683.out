@@ -1,0 +1,194 @@
+================================================================
+Timestamp            : Thu Apr 16 00:42:07 IDT 2026
+Host                 : n317
+SLURM Job ID         : 71683
+Apptainer Container  : /apps/apptainer/images/pytorch/2.7/torch2.7-tf2.20-cu128.sif
+Container Mounts     : /rg/shocher_prj/porat.hai/SR_IGN_Project
+GPU(s) Allocated     : 0
+================================================================
+
+--- Verifying GPU Accessibility Inside Container ---
+Thu Apr 16 00:42:07 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.45.04              Driver Version: 595.45.04      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:F3:00.0 Off |                    0 |
+| N/A   25C    P8             29W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Filesystem                                              Size  Used Avail Use% Mounted on
+fuse-overlayfs                                          1.2T   40K  1.2T   1% /
+devtmpfs                                                4.0M     0  4.0M   0% /dev
+tmpfs                                                   1.2T  295M  1.2T   1% /dev/shm
+hpc-nfs2:/athena/rlocal/apptainer/profile.d/y-local.sh  1.0T  315G  710G  31% /.singularity.d/env/y-local.sh
+/dev/mapper/rlm_n317-root                               150G   48G  103G  32% /etc/hosts
+/dev/md0                                                7.0T  588G  6.5T   9% /scratch
+tmpfs                                                   454G  2.8M  454G   1% /run/munge/munge.socket.2
+efivarfs                                                256K   89K  163K  36% /sys/firmware/efi/efivars
+tmpfs                                                   1.2T   40K  1.2T   1% /etc/resolv.conf
+hpc-nfs2:/rg/shocher_prj/porat.hai/SR_IGN_Project       2.0T  1.6T  415G  80% /rg/shocher_prj/porat.hai/SR_IGN_Project
+tmpfs                                                   1.2T   12K  1.2T   1% /proc/driver/nvidia
+--- Launching Primary Command ---
+Changing directory to project folder...
+Current directory: /rg/shocher_prj/porat.hai/SR_IGN_Project
+Listing files: README.md
+SRdata
+__pycache__
+artifacts
+back_projection.py
+check_ImageNet64.py
+configurations
+constants.py
+cpu_runs.sbatch
+data
+dataset_classes
+evaluation_run.sh
+loops
+losses
+main.py
+main_scripts
+models
+optimization_builders.py
+run_simulation.sbatch
+slurm-71676.err
+slurm-71676.out
+slurm-71680.err
+slurm-71680.out
+slurm-71683.err
+slurm-71683.out
+tmp_artifact_files
+traning_run.sh
+utils
+wandb
+Starting python script...
+--------------------------------------------------------------------------------
+Starting SR-IGN evaluation script...
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Registers all necessary custom constructors for PyYAML:
+----  Custom YAML constructor for !BlockType registered.
+All constructors registered successfully.
+--------------------------------------------------------------------------------
+YAML configuration file read successfully.
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+
+YAML configuration file read successfully.
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Model architecture:
+
+Autoencoder(
+  (encoder): Encoder(
+    (encoder): ModelBuilder(
+      (model): Sequential(
+        (0): DownStrideConvBlock(
+          (block): Sequential(
+            (0): Conv2d(3, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (1): DownStrideConvBlock(
+          (block): Sequential(
+            (0): Conv2d(32, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (2): DownStrideConvBlock(
+          (block): Sequential(
+            (0): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (3): DownStrideConvBlock(
+          (block): Sequential(
+            (0): Conv2d(256, 512, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+      )
+    )
+  )
+  (decoder): Decoder(
+    (decoder): ModelBuilder(
+      (model): Sequential(
+        (0): UpStrideConvTransposeBlock(
+          (block): Sequential(
+            (0): ConvTranspose2d(512, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (1): UpStrideConvTransposeBlock(
+          (block): Sequential(
+            (0): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (2): UpStrideConvTransposeBlock(
+          (block): Sequential(
+            (0): ConvTranspose2d(128, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): ReLU()
+          )
+        )
+        (3): UpStrideConvTransposeBlock(
+          (block): Sequential(
+            (0): ConvTranspose2d(32, 3, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+            (1): Sigmoid()
+          )
+        )
+      )
+    )
+  )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Builders:
+----  dataloaders built successfully.
+
+----  loss function built successfully. Test loss: SR_IGN_loss_for_test
+--------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------
+Test evaluation:
+Avg Test loss: 0.026859| Avg PSNR: 30.937174 dB | Avg SSIM: 0.925141
+
+Test evaluation completed.
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Generating visual results...
+Visual Results saved successfully.
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+
+Mission Complete.
