@@ -38,4 +38,4 @@ class CelebADataset(Dataset):
         
         lr_restored = lr_small.resize((w, h), resample=Image.BICUBIC)
 
-        return self.to_tensor(lr_restored), self.to_tensor(hr_img)
+        return self.to_tensor(lr_restored), self.to_tensor(hr_img), self.to_tensor(lr_small)
