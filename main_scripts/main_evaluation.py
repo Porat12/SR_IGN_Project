@@ -15,6 +15,8 @@ from utils.visualize import create_results_fig
 from loops.evaluation import test_loop
 from losses.loss_builder import build_loss
 
+from back_projection import BackProjectionLayer
+
 def main_evaluation(artifact_name):
 
     print("-"*80)
@@ -81,9 +83,14 @@ def main_evaluation(artifact_name):
     print("\n\n")
     loss_config = config["loss"]
 
+    if config.get("back_projection") is not None:
+        bp = BackProjectionLayer(scale_factor = data_config["scale_factor"])
+    else:
+        bp = None
+
     print("-"*80)
     print("Test evaluation:")
-    test_loop(test_loader, model, test_loss, is_test=True, **loss_config["params"])
+    test_loop(test_loader, model, test_loss, bp, is_test=True, **loss_config["params"])
     print("Test evaluation completed.")
     print("-"*80)
     print("\n")
@@ -94,7 +101,7 @@ def main_evaluation(artifact_name):
     n = 10
 
     for _ in range(5):
-        LR_batch, HR_batch = next(iter(test_loader))
+        LR_batch, HR_batch, down_LR_batch = next(iter(test_loader))
         current_batch_size = LR_batch.size(0)
 
         n_to_select = min(n, current_batch_size)
@@ -105,6 +112,8 @@ def main_evaluation(artifact_name):
 
         with torch.no_grad():
             SR_batch = model(LR_batch.to(constants.device))
+            if bp is not None:
+                SR_batch = bp(down_LR_batch, SR_batch) # refine SR_img using back projection
 
         fig = create_results_fig(LR_batch, SR_batch, HR_batch)
 

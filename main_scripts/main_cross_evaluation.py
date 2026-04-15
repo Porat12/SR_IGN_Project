@@ -106,7 +106,7 @@ def main_cross_evaluation(trained_artifact_name, test_data_config_path):
     n = 10
 
     for _ in range(5):
-        LR_batch, HR_batch, _ = next(iter(test_loader))
+        LR_batch, HR_batch, down_LR_batch = next(iter(test_loader))
         current_batch_size = LR_batch.size(0)
 
         n_to_select = min(n, current_batch_size)
@@ -117,6 +117,10 @@ def main_cross_evaluation(trained_artifact_name, test_data_config_path):
 
         with torch.no_grad():
             SR_batch = model(LR_batch.to(constants.device))
+            if bp is not None:
+                SR_batch_refined = bp(down_LR_batch, SR_batch) # refine SR_img using back projection
+                fig_ref = create_results_fig(SR_batch, SR_batch_refined, HR_batch)
+                wandb.log({"Test/Visuale Results refind": wandb.Image(fig_ref)})
 
         fig = create_results_fig(LR_batch, SR_batch, HR_batch)
 
