@@ -70,6 +70,6 @@ echo "Starting python script..."
 # Run training script as a single command (all args on one line for clarity)
 
 # python main.py --train --relative_path_to_config CelebA_configurations/CelebA_stride_conv_modifiedBackprop.yaml --eval --artifact_name StrideConv_CelebA_modifiedBackprop.config_weights:latest
-python main.py --cross_eval --trained_artifact_name StrideConv_CelebA.config_weights:v1 --relative_path_to_data_cross_eval_config ImageNet64_configurations/ImageNet64CrossEval.yaml
+python main.py --cross_eval --trained_artifact_name StrideConv_CelebA.config_weights:v1 --relative_path_to_data_cross_eval_config CelebA_configurations/CelebACrossEval.yaml
 
 echo "Mission Complete."

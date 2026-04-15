@@ -1,0 +1,7 @@
+data:
+  name: CelebA
+  scale_factor: 2
+  
+batch_size: 2048
+
+back_projection: Yes
