@@ -3,7 +3,7 @@ import constants
 from utils.metrics import psnr_batch, ssim_batch
 
 @torch.no_grad()
-def test_loop(dataloader, model, loss_func, is_test, **loss_params):
+def test_loop(dataloader, model, loss_func, bp, is_test, **loss_params):
     # Set the model to evaluation mode
     model.eval()
 
@@ -16,12 +16,15 @@ def test_loop(dataloader, model, loss_func, is_test, **loss_params):
     ssim = 0.0
 
     # Evaluating the model with torch.no_grad() ensures that no gradients are computed during test mode
-    for LR_img, HR_img in dataloader:
+    for LR_img, HR_img, down_LR_img in dataloader:
         # Move data to the device
         LR_img = LR_img.to(constants.device)
         HR_img = HR_img.to(constants.device)
 
         SR_img = model(LR_img)
+
+        if bp is not None:
+            SR_img = bp(down_LR_img, SR_img) # refine SR_img using back projection
 
         loss, losses_info = loss_func(model, LR_img, HR_img, **loss_params)
         
